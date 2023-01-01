@@ -1,6 +1,6 @@
-package dao;
+package com.example.teapot_project.dao;
 
-import model.User;
+import com.example.teapot_project.model.User;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>--%>
-<%@ page import="model.User" %>
+<%@ page import="com.example.teapot_project.model.User" %>
 <%@ page import="java.util.List" %>
 <html>
 <head>
@@ -29,7 +29,7 @@
         </thead>
 
         <c:forEach var="user" items="${users}">
-            <jsp:useBean id="meal" class="model.User"/>
+            <jsp:useBean id="meal" class="com.example.teapot_project.model.User"/>
 
             <tr>
                 <td>${user.id}</td>

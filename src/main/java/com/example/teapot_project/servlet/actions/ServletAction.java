@@ -1,4 +1,4 @@
-package servlet.actions;
+package com.example.teapot_project.servlet.actions;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

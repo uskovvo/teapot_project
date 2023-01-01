@@ -1,8 +1,6 @@
-package utils;
+package com.example.teapot_project.utils;
 
-import exceptions.NotValidDataException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.teapot_project.exceptions.NotValidDataException;
 
 public class StringValidator {
     public static boolean nameValidation(String name) {

@@ -1,4 +1,4 @@
-package utils;
+package com.example.teapot_project.utils;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DataSource{
-    //todo Hikari config was hardcodded. Find a way to use hikari.properties file in resources
+    //todo Hikari config was hardcoded. Find a way to use hikari.properties file in resources
     private static HikariConfig config = new HikariConfig();
     private static HikariDataSource dataSource;
 

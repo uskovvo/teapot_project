@@ -1,6 +1,7 @@
 package dao;
 
-import model.User;
+import com.example.teapot_project.dao.UserDao;
+import com.example.teapot_project.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
