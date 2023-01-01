@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    tools{
+    maven 'mv'
+    }
+    stages {
+        stage("git") {
+            steps {
+                git credentialsId: 'ssh-github', url: 'git@github.com:SkipperMouse/git-test.git'
+            }
+        }
+        stage("build") {
+            steps {
+                sh "mvn clean install"
+            }
+        }
+               stage("deploy") {
+            steps {
+            deploy adapters: [tomcat9(credentialsId: 'name-pswd-for-tomcat', path: '', url: 'http://192.168.100.10:8080/')], contextPath: null, onFailure: false, war: '**/*.war'
+            }
+        }
+    }
+}
