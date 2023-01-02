@@ -24,7 +24,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", age)))=" + age +
+                ", age=" + age +
                 '}';
     }
 
