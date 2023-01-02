@@ -3,7 +3,7 @@
 <!-- todo rename this file for the project-->
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
-  <artifactId>git-test</artifactId>
+  <artifactId>teapot_project</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <properties>
@@ -89,6 +89,6 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>git-test</finalName>
+    <finalName>teapot_project</finalName>
   </build>
 </project>
