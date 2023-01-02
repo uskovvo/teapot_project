@@ -1,8 +1,5 @@
 package com.example.teapot_project.utils;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,8 +19,7 @@ public class DataSource{
     public static Connection getConnection(){
         try{
             return DriverManager
-                    .getConnection(
-                            PropertiesUtil.get(URL_KEY),
+                    .getConnection(PropertiesUtil.get(URL_KEY),
                             PropertiesUtil.get(USERNAME_KEY),
                             PropertiesUtil.get(PASSWORD_KEY));
         } catch (SQLException ex) {
