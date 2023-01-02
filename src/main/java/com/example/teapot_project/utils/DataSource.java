@@ -9,6 +9,7 @@ public class DataSource{
     private static final String PASSWORD_KEY = "db.password";
     private static final String USERNAME_KEY = "db.username";
     private static final String URL_KEY = "db.url";
+    private static final String DRIVER_KEY = "db.driver";
 
     static {
         loadDriver();
@@ -29,7 +30,7 @@ public class DataSource{
 
     private static void loadDriver(){
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(PropertiesUtil.get(DRIVER_KEY));
         } catch (ClassNotFoundException ex){
             throw new RuntimeException(ex);
         }
