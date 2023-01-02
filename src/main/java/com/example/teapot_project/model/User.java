@@ -9,6 +9,27 @@ public class User {
     private String surname;
     private int age;
 
+    private long groupId;
+
+    private boolean answerStatus;
+
+
+    public long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
+    }
+
+    public boolean isAnswerStatus() {
+        return answerStatus;
+    }
+
+    public void setAnswerStatus(boolean answerStatus) {
+        this.answerStatus = answerStatus;
+    }
+
     public User() {
     }
 
