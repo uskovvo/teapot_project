@@ -24,9 +24,21 @@ public class Group {
         this.id = id;
         this.groupColor = groupColor;
     }
+    public Group( String groupColor) {
+        this.groupColor = groupColor;
+    }
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", groupColor='" + groupColor + '\'' +
+                ", userList=" + userList +
+                '}';
     }
 
     public void setId(Long id) {
