@@ -4,28 +4,39 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataSource{
     //todo Hikari config was hardcoded. Find a way to use hikari.properties file in resources
-    private static HikariConfig config = new HikariConfig();
-    private static HikariDataSource dataSource;
+    private static final String PASSWORD_KEY = "db.password";
+    private static final String USERNAME_KEY = "db.username";
+    private static final String URL_KEY = "db.url";
 
     static {
-        config.setDriverClassName("org.postgresql.Driver");
-        config.setJdbcUrl( "jdbc:postgresql://192.168.100.20:5432/andersen" );
-        config.setUsername( "postgres" );
-        config.setPassword( "postgres" );
-        config.addDataSourceProperty( "cachePrepStmts" , "true" );
-        config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-        config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-        dataSource = new HikariDataSource( config );
+        loadDriver();
     }
 
     private DataSource() {}
 
-    public static Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+    public static Connection getConnection(){
+        try{
+            return DriverManager
+                    .getConnection(
+                            PropertiesUtil.get(URL_KEY),
+                            PropertiesUtil.get(USERNAME_KEY),
+                            PropertiesUtil.get(PASSWORD_KEY));
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private static void loadDriver(){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex){
+            throw new RuntimeException(ex);
+        }
     }
 }
 
