@@ -15,7 +15,7 @@
     <h3><a href="index.html">Home</a></h3>
     <hr>
     <h2>${param.action == 'create' ? 'Create user' : 'Edit user'}</h2>
-    <jsp:useBean id="user" type="model.User" scope="request"/>
+    <jsp:useBean id="user" type="com.example.teapot_project.model.User" scope="request"/>
     <form method="post" action="users">
         <input type="hidden" name="id" value="${user.id}">
         <dl>

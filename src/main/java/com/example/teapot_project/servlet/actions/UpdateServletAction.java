@@ -1,8 +1,8 @@
-package servlet.actions;
+package com.example.teapot_project.servlet.actions;
 
-import dao.UserDao;
-import dao.UserRepository;
-import model.User;
+import com.example.teapot_project.dao.UserDao;
+import com.example.teapot_project.dao.UserRepository;
+import com.example.teapot_project.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

@@ -1,9 +1,9 @@
-package servlet;
+package com.example.teapot_project.servlet;
 
-import exceptions.NotValidDataException;
+import com.example.teapot_project.exceptions.NotValidDataException;
+import com.example.teapot_project.servlet.actions.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import servlet.actions.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

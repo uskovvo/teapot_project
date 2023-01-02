@@ -1,6 +1,6 @@
-package servlet.actions;
+package com.example.teapot_project.servlet.actions;
 
-import model.User;
+import com.example.teapot_project.model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

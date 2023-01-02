@@ -1,9 +1,7 @@
-package model;
+package com.example.teapot_project.model;
 
-import exceptions.NotValidDataException;
-import utils.StringValidator;
-
-import java.util.Objects;
+import com.example.teapot_project.exceptions.NotValidDataException;
+import com.example.teapot_project.utils.StringValidator;
 
 public class User {
     private Long id;

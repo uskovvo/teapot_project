@@ -1,12 +1,10 @@
-package dao;
+package com.example.teapot_project.dao;
 
-import exceptions.DatabaseConnectionException;
-import exceptions.DatabaseOperationException;
-import exceptions.EntityNotFoundException;
-import model.User;
+import com.example.teapot_project.exceptions.DatabaseOperationException;
+import com.example.teapot_project.model.User;
+import com.example.teapot_project.utils.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.DataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,7 +13,10 @@ import java.util.List;
 public class UserDao implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(UserDao.class);
     private static UserDao instance;
-    private Connection connection;
+
+    private static final String CREATE_USER_QUERY = "INSERT INTO users(name, surname, age) VALUES (?, ?, ?)";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, surname = ?, age = ? WHERE id = ?";
+    private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
 
     public static UserDao getInstance() {
         if (instance == null) {
@@ -29,20 +30,20 @@ public class UserDao implements UserRepository {
     }
 
     private UserDao() {
-        try {
-            connection = DataSource.getConnection();
-        } catch (SQLException e) {
-            throw new DatabaseConnectionException("Failed to get connection to the database", e);
-        }
     }
 
 
     public List<User> readAll() {
         List<User> users = new ArrayList<>();
-        try (CallableStatement statement = connection.prepareCall("{call get_all()}")) {
+        try (Connection connection = DataSource.getConnection();
+             CallableStatement statement = connection.prepareCall("{call get_all()}")) {
+            connection.setAutoCommit(false);
+
             readUsersFromDatabase(statement, users);
+            connection.commit();
+
         } catch (SQLException e) {
-            log.warn("Exception was caught", e);
+            log.warn("Can't read users from database", e);
         }
         return users;
     }
@@ -55,14 +56,19 @@ public class UserDao implements UserRepository {
     }
 
     public User read(long userId) {
-        try (CallableStatement statement = connection.prepareCall("{call get_by_id(?)}")) {
+        try (Connection connection = DataSource.getConnection();
+             CallableStatement statement = connection.prepareCall("{call get_by_id(?)}")) {
+
+            connection.setAutoCommit(false);
             statement.setLong(1, userId);
+
             User user = readUserFromDatabase(statement);
+            connection.commit();
             return user;
             //todo decide how to handle exceptions like this
         } catch (SQLException e) {
             log.warn("Exception was caught", e);
-            throw new EntityNotFoundException("No user with such id in database");
+            throw new DatabaseOperationException("User wasn't reader", e);
         }
     }
 
@@ -70,24 +76,25 @@ public class UserDao implements UserRepository {
         ResultSet userSet = statement.executeQuery();
         if (userSet.next()) {
             return parseUser(userSet);
-        } else throw new EntityNotFoundException("No user with such id in database");
+        } else throw new DatabaseOperationException("User with such id is absent in database");
     }
 
     @Override
     public User create(User user) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO users(name, surname, age) VALUES (?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 
+            connection.setAutoCommit(false);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setInt(3, user.getAge());
 
             addUserToDatabase(statement, user);
+            connection.commit();
             return user;
 
         } catch (SQLException e) {
-            log.warn("Exception was caught", e);
+            log.warn("User wasn't saved", e);
             throw new DatabaseOperationException("User wasn't saved");
         }
     }
@@ -107,9 +114,11 @@ public class UserDao implements UserRepository {
 
     @Override
     public User update(User user) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE users SET name = ?, surname = ?, age = ? WHERE id = ?")) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY)) {
 
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
             statement.setInt(3, user.getAge());
@@ -117,28 +126,34 @@ public class UserDao implements UserRepository {
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-                throw new SQLException("user wasn't updated");
+               throw new DatabaseOperationException("User wasn't deleted");
             }
+            connection.commit();
             return user;
 
         } catch (SQLException e) {
-            log.warn("Failed to save user");
-            throw new DatabaseOperationException("unsuccessful update", e);
+            log.warn("Failed to save user", e);
+            throw new DatabaseOperationException("User wasn't updated", e);
 
         }
     }
 
     @Override
     public boolean delete(long id) {
-        try (Statement statement = connection.createStatement()) {
-            String query = String.format("DELETE FROM users WHERE id = %d", id);
-            int affectedRows = statement.executeUpdate(query);
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)) {
+
+            connection.setAutoCommit(false);
+            statement.setLong(1, id);
+
+            int affectedRows = statement.executeUpdate();
+            connection.commit();
             return affectedRows != 0;
+
         } catch (SQLException e) {
             log.warn("unsuccessful delete", e);
-            throw new DatabaseOperationException("unsuccessful delete", e);
         }
-
+        return false;
     }
 
     private User parseUser(ResultSet usersSet) throws SQLException {
