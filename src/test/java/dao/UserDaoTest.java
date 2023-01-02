@@ -18,7 +18,7 @@ class UserDaoTest {
     @DisplayName("Works if there is 2 users in db")
     void getAll(){
         List<User> users = userDao.readAll();
-        Assertions.assertEquals(3, users.size());
+        Assertions.assertEquals(2, users.size());
     }
 
 
