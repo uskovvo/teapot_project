@@ -17,6 +17,8 @@ public class UserDao implements UserRepository {
     private static final String CREATE_USER_QUERY = "INSERT INTO users(name, surname, age) VALUES (?, ?, ?)";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, surname = ?, age = ? WHERE id = ?";
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
+    private static final String READ_ALL_USERS_QUERY = "SELECT * FROM users";
+    private static final String READ_USER_QUERY = "SELECT * FROM users AS u WHERE u.id = ?";
 
     public static UserDao getInstance() {
         if (instance == null) {
@@ -36,7 +38,7 @@ public class UserDao implements UserRepository {
     public List<User> readAll() {
         List<User> users = new ArrayList<>();
         try (Connection connection = DataSource.getConnection();
-             CallableStatement statement = connection.prepareCall("{call get_all()}")) {
+             PreparedStatement statement = connection.prepareStatement(READ_ALL_USERS_QUERY)) {
             connection.setAutoCommit(false);
 
             readUsersFromDatabase(statement, users);
@@ -48,7 +50,7 @@ public class UserDao implements UserRepository {
         return users;
     }
 
-    private void readUsersFromDatabase(CallableStatement statement, List<User> users) throws SQLException {
+    private void readUsersFromDatabase(PreparedStatement statement, List<User> users) throws SQLException {
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             users.add(parseUser(resultSet));
@@ -57,7 +59,7 @@ public class UserDao implements UserRepository {
 
     public User read(long userId) {
         try (Connection connection = DataSource.getConnection();
-             CallableStatement statement = connection.prepareCall("{call get_by_id(?)}")) {
+             PreparedStatement statement = connection.prepareStatement(READ_USER_QUERY)) {
 
             connection.setAutoCommit(false);
             statement.setLong(1, userId);
@@ -72,7 +74,7 @@ public class UserDao implements UserRepository {
         }
     }
 
-    private User readUserFromDatabase(CallableStatement statement) throws SQLException {
+    private User readUserFromDatabase(PreparedStatement statement) throws SQLException {
         ResultSet userSet = statement.executeQuery();
         if (userSet.next()) {
             return parseUser(userSet);
@@ -126,7 +128,7 @@ public class UserDao implements UserRepository {
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-               throw new DatabaseOperationException("User wasn't deleted");
+                throw new DatabaseOperationException("User wasn't deleted");
             }
             connection.commit();
             return user;
