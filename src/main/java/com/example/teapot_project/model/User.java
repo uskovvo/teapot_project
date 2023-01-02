@@ -7,7 +7,30 @@ public class User {
     private Long id;
     private String name;
     private String surname;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                ", answerStatus=" + answerStatus +
+                '}';
+    }
+
     private int age;
+
+    private boolean answerStatus;
+
+
+    public boolean getanswerStatus() {
+        return answerStatus;
+    }
+
+    public void setanswerStatus(boolean answerStatus) {
+        this.answerStatus = answerStatus;
+    }
 
     public User() {
     }
@@ -16,16 +39,6 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", Age=" + age +
-                '}';
     }
 
 
