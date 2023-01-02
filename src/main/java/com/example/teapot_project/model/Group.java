@@ -1,24 +1,43 @@
 package com.example.teapot_project.model;
 
-public enum Group {
-    RED ("RED"),
-    GREEN ("GREEN"),
-    BLUE("BLUE");
+import java.util.List;
 
-    private final String title;
+public class Group {
 
-    Group(String title) {
-        this.title = title;
+    private Long id;
+    private  String groupColor;
+
+    private List<User> userList;
+
+    public List<User> getUserList() {
+        return userList;
     }
 
-    public String getTitle() {
-        return title;
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 
-    @Override
-    public String toString() {
-        return "Group{" +
-                "title='" + title + '\'' +
-                '}';
+    public Group() {
+    }
+
+    public Group(Long id, String groupColor) {
+        this.id = id;
+        this.groupColor = groupColor;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getGroupColor() {
+        return groupColor;
+    }
+
+    public void setGroupColor(String groupColor) {
+        this.groupColor = groupColor;
     }
 }
