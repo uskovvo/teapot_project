@@ -12,4 +12,5 @@ public interface GroupRepository {
     Group create(Group group);
     Group update(Group group);
     boolean delete(long id);
+    List <Group> randomTwo();
 }
