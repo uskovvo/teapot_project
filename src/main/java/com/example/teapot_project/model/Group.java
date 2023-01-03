@@ -9,6 +9,15 @@ public class Group {
 
     private List<User> userList;
 
+    public void addUser(User user){
+        userList.add(user);
+    }
+
+    public Group(long id, String groupColor) {
+        this.id = id;
+        this.groupColor = groupColor;
+    }
+
     public List<User> getUserList() {
         return userList;
     }

@@ -9,16 +9,16 @@ public class User {
     private String surname;
     private int age;
 
-    private long groupId;
+    private Long groupId;
 
     private boolean answerStatus;
 
 
-    public long getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(long groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
