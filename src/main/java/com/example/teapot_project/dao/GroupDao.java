@@ -99,6 +99,7 @@ public class GroupDao implements GroupRepository {
 
         } catch (SQLException e) {
             log.warn("Group wasn't saved", e);
+            //todo delete this plug
             throw new DatabaseOperationException("Group wasn't saved");
         }
     }

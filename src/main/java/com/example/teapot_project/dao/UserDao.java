@@ -14,8 +14,8 @@ public class UserDao implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(UserDao.class);
     private static UserDao instance;
 
-    private static final String CREATE_USER_QUERY = "INSERT INTO users(name, surname, age) VALUES (?, ?, ?)";
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, surname = ?, age = ? WHERE id = ?";
+    private static final String CREATE_USER_QUERY = "INSERT INTO users(name, surname, age, group_id, status) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, surname = ?, age = ?, group_id = ?, status = ? WHERE id = ?";
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
     private static final String READ_ALL_USERS_QUERY = "SELECT * FROM users";
     private static final String READ_USER_QUERY = "SELECT * FROM users AS u WHERE u.id = ?";
@@ -87,10 +87,8 @@ public class UserDao implements UserRepository {
              PreparedStatement statement = connection.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 
             connection.setAutoCommit(false);
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getSurname());
-            statement.setInt(3, user.getAge());
 
+            ConfigureCreateQueryParameters(statement, user);
             addUserToDatabase(statement, user);
             connection.commit();
             return user;
@@ -99,6 +97,19 @@ public class UserDao implements UserRepository {
             log.warn("User wasn't saved", e);
             throw new DatabaseOperationException("User wasn't saved");
         }
+    }
+
+    private void ConfigureCreateQueryParameters(PreparedStatement statement, User user) throws SQLException {
+        statement.setString(1, user.getName());
+        statement.setString(2, user.getSurname());
+        statement.setInt(3, user.getAge());
+        if (user.getGroupId() == null){
+            statement.setNull(4, Types.BIGINT);
+        }
+        else{
+            statement.setLong(4, user.getGroupId());
+        }
+        statement.setBoolean(5, user.isAnswerStatus());
     }
 
     private User addUserToDatabase(PreparedStatement statement, User user) throws SQLException {
@@ -121,10 +132,7 @@ public class UserDao implements UserRepository {
 
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getSurname());
-            statement.setInt(3, user.getAge());
-            statement.setLong(4, user.getId());
+            ConfigureUpdateQueryParameters(statement, user);
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -138,6 +146,15 @@ public class UserDao implements UserRepository {
             throw new DatabaseOperationException("User wasn't updated", e);
 
         }
+    }
+
+    private void ConfigureUpdateQueryParameters(PreparedStatement statement, User user) throws SQLException {
+        statement.setString(1, user.getName());
+        statement.setString(2, user.getSurname());
+        statement.setInt(3, user.getAge());
+        statement.setLong(4, user.getGroupId());
+        statement.setBoolean(5, user.isAnswerStatus());
+        statement.setLong(6, user.getId());
     }
 
     @Override
@@ -164,6 +181,8 @@ public class UserDao implements UserRepository {
         user.setName(usersSet.getString("name"));
         user.setSurname(usersSet.getString("surname"));
         user.setAge(usersSet.getInt("age"));
+        user.setGroupId(usersSet.getLong("group_id"));
+        user.setAnswerStatus(usersSet.getBoolean("status"));
         return user;
     }
 

@@ -14,6 +14,8 @@
     <hr/>
     <h2>Users</h2>
     <a href="users?action=createForm">Add User</a>
+    <br/>
+    <a href="users?action=groupForm">Add Group</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -21,6 +23,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Surname</th>
+            <th>Group</th>
             <th>Age</th>
             <th></th>
             <th></th>
@@ -29,12 +32,14 @@
         </thead>
 
         <c:forEach var="user" items="${users}">
-            <jsp:useBean id="meal" class="com.example.teapot_project.model.User"/>
+            <jsp:useBean id="user" class="com.example.teapot_project.model.User"/>
 
             <tr>
                 <td>${user.id}</td>
                 <td>${user.name}</td>
                 <td>${user.surname}</td>
+<%--                todo add through servlet groups and insert it here--%>
+                <td>${user.groupId}</td>
                 <td>${user.age}</td>
                 <td><a href="users?action=updateForm&id=${user.id}">Update</a></td>
                 <td><a href="users?action=delete&id=${user.id}">Delete</a></td>

@@ -14,7 +14,7 @@ public class User {
     private boolean answerStatus;
 
 
-    public long getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 

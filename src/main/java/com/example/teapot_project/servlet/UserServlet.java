@@ -2,6 +2,9 @@ package com.example.teapot_project.servlet;
 
 import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.servlet.actions.*;
+import com.example.teapot_project.servlet.actions.groups.ShowGroupFormAction;
+import com.example.teapot_project.servlet.actions.groups.UpdateGroupAction;
+import com.example.teapot_project.servlet.actions.users.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +29,16 @@ public class UserServlet extends HttpServlet {
 
         actionMap = new HashMap<>();
 
-        actionMap.put("delete", new DeleteServletAction());
-        actionMap.put("updateForm", new ShowUpdateFormServletAction());
-        actionMap.put("createForm", new ShowCreateFormServletAction());
-        actionMap.put("all", new GetAllServletAction());
-        actionMap.put("update", new UpdateServletAction());
-        actionMap.put(null, new GetAllServletAction());
+        actionMap.put("delete", new DeleteAction());
+        actionMap.put("updateForm", new ShowUpdateFormAction());
+        actionMap.put("createForm", new ShowCreateFormAction());
+        actionMap.put("all", new GetAllAction());
+        actionMap.put("updateUser", new UpdateUserAction());
+        actionMap.put("groupForm", new ShowGroupFormAction());
+        actionMap.put("updateGroup", new UpdateGroupAction());
+        actionMap.put(null, new GetAllAction());
+
+
     }
 
     @Override
@@ -43,9 +50,9 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        String action = req.getParameter("action");
         try {
-            actionMap.get("update").execute(req, resp);
-            resp.sendRedirect("users");
+            actionMap.get(action).execute(req, resp);
         } catch (NotValidDataException ex) {
             req.setAttribute("exception", ex.getMessage());
             req.getRequestDispatcher("notValidForm.jsp").forward(req, resp);
