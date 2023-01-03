@@ -4,7 +4,6 @@ import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.utils.StringValidator;
 
 public class User {
-    private String team;
     private Long id;
     private String name;
     private String surname;
