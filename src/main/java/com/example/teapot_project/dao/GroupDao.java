@@ -99,6 +99,7 @@ public class GroupDao implements GroupRepository {
 
         } catch (SQLException e) {
             log.warn("Group wasn't saved", e);
+            //todo delete this plug
             throw new DatabaseOperationException("Group wasn't saved");
         }
     }
@@ -141,7 +142,7 @@ public class GroupDao implements GroupRepository {
     @Override
     public boolean delete(long id) {
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)) {
+              PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)) {
 
             connection.setAutoCommit(false);
             statement.setLong(1, id);

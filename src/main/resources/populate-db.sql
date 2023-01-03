@@ -6,7 +6,7 @@ CREATE SEQUENCE user_seq start 1000;
 CREATE TABLE groups
 (
     id      BIGSERIAL PRIMARY KEY,
-    group_color varchar(30) NOT NULL
+    group_color varchar(30) NOT NULL UNIQUE
 );
 
 insert into groups(group_color)
@@ -22,8 +22,7 @@ CREATE TABLE users
     name    VARCHAR(30) NOT NULL,
     surname varchar(30) Not NULL,
     age integer NOT NULL CHECK ( age > 0 AND age < 150),
-    group_id INTEGER,
-    FOREIGN KEY (group_id) REFERENCES groups(id),
+    group_id BIGINT REFERENCES groups(id) ON DELETE CASCADE ,
     status bool
 );
 
@@ -33,3 +32,8 @@ VALUES (100, 'Makise', 'Kurisu', 1, 19, false);
 insert into users(id, name, surname,group_id, age, status)
 VALUES (101, 'Vladimir', 'Lenin', 2, 40, false);
 
+insert into users(id, name, surname,group_id, age, status)
+VALUES (102, 'Jared', 'Leto', null, 40, false);
+
+insert into users(name, surname, age)
+VALUES ('Jared', 'Leto', 40);
