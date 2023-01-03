@@ -19,6 +19,7 @@ public class UserDao implements UserRepository {
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
     private static final String READ_ALL_USERS_QUERY = "SELECT * FROM users";
     private static final String READ_USER_QUERY = "SELECT * FROM users AS u WHERE u.id = ?";
+    private static final String READ_USERS_BY_GROUP_QUERY = "SELECT * FROM users AS u WHERE u.group_id = ?";
 
     public static UserDao getInstance() {
         if (instance == null) {
@@ -34,7 +35,7 @@ public class UserDao implements UserRepository {
     private UserDao() {
     }
 
-
+    @Override
     public List<User> readAll() {
         List<User> users = new ArrayList<>();
         try (Connection connection = DataSource.getConnection();
@@ -49,6 +50,26 @@ public class UserDao implements UserRepository {
         }
         return users;
     }
+
+    @Override
+    public List<User> readAll(long groupId) {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(READ_USERS_BY_GROUP_QUERY)) {
+            connection.setAutoCommit(false);
+
+            statement.setLong(1, groupId);
+            readUsersFromDatabase(statement, users);
+            connection.commit();
+
+        } catch (SQLException e) {
+            log.warn("Can't read users from database", e);
+        }
+        return users;
+    }
+
+
+
 
     private void readUsersFromDatabase(PreparedStatement statement, List<User> users) throws SQLException {
         ResultSet resultSet = statement.executeQuery();
@@ -103,10 +124,9 @@ public class UserDao implements UserRepository {
         statement.setString(1, user.getName());
         statement.setString(2, user.getSurname());
         statement.setInt(3, user.getAge());
-        if (user.getGroupId() == null){
+        if (user.getGroupId() == null) {
             statement.setNull(4, Types.BIGINT);
-        }
-        else{
+        } else {
             statement.setLong(4, user.getGroupId());
         }
         statement.setBoolean(5, user.isAnswerStatus());

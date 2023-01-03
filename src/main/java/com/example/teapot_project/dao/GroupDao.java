@@ -142,7 +142,7 @@ public class GroupDao implements GroupRepository {
     @Override
     public boolean delete(long id) {
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)) {
+              PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)) {
 
             connection.setAutoCommit(false);
             statement.setLong(1, id);

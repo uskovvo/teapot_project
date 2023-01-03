@@ -3,6 +3,8 @@ package com.example.teapot_project.model;
 import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.utils.StringValidator;
 
+import java.util.List;
+
 public class User {
     private Long id;
     private String name;
@@ -12,6 +14,15 @@ public class User {
     private long groupId;
 
     private boolean answerStatus;
+
+    public String getGroup(List<Group> groups){
+        for (Group group :groups) {
+            if (group.getId() == groupId)  {
+                return group.getGroupColor();
+            }
+        }
+        return "none";
+    }
 
 
     public Long getGroupId() {

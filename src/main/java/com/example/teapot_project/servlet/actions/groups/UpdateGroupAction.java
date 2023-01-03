@@ -2,6 +2,7 @@ package com.example.teapot_project.servlet.actions.groups;
 
 import com.example.teapot_project.dao.GroupDao;
 import com.example.teapot_project.model.Group;
+import com.example.teapot_project.model.User;
 import com.example.teapot_project.servlet.actions.ServletAction;
 
 import javax.servlet.ServletException;
@@ -14,9 +15,20 @@ public class UpdateGroupAction implements ServletAction {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Group group = new Group();
-        group.setGroupColor(req.getParameter("name"));
+        fillGroupFields(group, req);
+        if (group.getId() == null) {
+            repository.create(group);
+        } else {
+            repository.update(group);
+        }
+        resp.sendRedirect("/users?action=allGroups");
+    }
 
-        repository.create(group);
-        resp.sendRedirect("users");
+    private void fillGroupFields(Group group, HttpServletRequest req) {
+        group.setGroupColor(req.getParameter("groupColor"));
+        if (!req.getParameter("id").equals("")) {
+            group.setId(getId(req));
+        }
     }
 }
+

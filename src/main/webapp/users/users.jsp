@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>--%>
-<%@ page import="com.example.teapot_project.model.User" %>
-<%@ page import="java.util.List" %>
+
 <html>
 <head>
     <title>User list</title>
@@ -13,9 +12,9 @@
     <h3><a href="/">Home</a></h3>
     <hr/>
     <h2>Users</h2>
-    <a href="users?action=createForm">Add User</a>
+    <a href="?action=createForm">Add User</a>
     <br/>
-    <a href="users?action=groupForm">Add Group</a>
+    <a href="?action=groupForm">Add Group</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -33,16 +32,17 @@
 
         <c:forEach var="user" items="${users}">
             <jsp:useBean id="user" class="com.example.teapot_project.model.User"/>
+            <jsp:useBean id="group" class="com.example.teapot_project.model.Group"/>
+
 
             <tr>
                 <td>${user.id}</td>
                 <td>${user.name}</td>
                 <td>${user.surname}</td>
-<%--                todo add through servlet groups and insert it here--%>
-                <td>${user.groupId}</td>
+                <td>${user.getGroup(groups)}                           </td>
                 <td>${user.age}</td>
-                <td><a href="users?action=updateForm&id=${user.id}">Update</a></td>
-                <td><a href="users?action=delete&id=${user.id}">Delete</a></td>
+                <td><a href="?action=updateForm&id=${user.id}">Update</a></td>
+                <td><a href="?action=delete&id=${user.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>

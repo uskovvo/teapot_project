@@ -4,6 +4,7 @@ import com.example.teapot_project.dao.GroupDao;
 import com.example.teapot_project.dao.GroupRepository;
 import com.example.teapot_project.dao.UserDao;
 import com.example.teapot_project.dao.UserRepository;
+import com.example.teapot_project.model.Group;
 import com.example.teapot_project.model.User;
 import com.example.teapot_project.servlet.actions.ServletAction;
 
@@ -19,8 +20,9 @@ public class GetAllAction implements ServletAction {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users = userRepository.readAll();
+        List<Group> groups = groupRepository.readAll();
         req.setAttribute("users", users);
-        req.setAttribute("groups", users);
-        req.getRequestDispatcher("users.jsp").forward(req, resp);
+        req.setAttribute("groups", groups);
+        req.getRequestDispatcher("/users/users.jsp").forward(req, resp);
     }
 }
