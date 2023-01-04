@@ -12,12 +12,10 @@ pipeline {
             }
         }
 
-//         stage("deploy") {
-//
-//             steps{
-//
-//                  deploy adapters: [tomcat9(credentialsId: 'remote-tomcat10', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
-//             }
-//         }
+        stage("deploy") {
+            steps{
+                 deploy adapters: [tomcat9(credentialsId: 'remote-tomcat10', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
+            }
+        }
     }
 }
