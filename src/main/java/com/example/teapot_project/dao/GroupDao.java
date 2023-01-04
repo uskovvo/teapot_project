@@ -20,6 +20,7 @@ public class GroupDao implements GroupRepository {
     private static final String DELETE_USER_QUERY = "DELETE FROM groups WHERE id = ?";
     private static final String READ_ALL_USERS_QUERY = "SELECT * FROM groups";
     private static final String READ_USER_QUERY = "SELECT * FROM groups AS g WHERE g.id = ?";
+    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY rand() LIMIT 2";
 
     public static GroupDao getInstance() {
         if (instance == null) {
@@ -63,7 +64,7 @@ public class GroupDao implements GroupRepository {
     @Override
     public Group read(long groupId) {
         try (Connection connection = DataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(READ_USER_QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(READ_USER_QUERY)) {
 
             connection.setAutoCommit(false);
             statement.setLong(1, groupId);
@@ -157,11 +158,25 @@ public class GroupDao implements GroupRepository {
         return false;
     }
 
-        private Group parseGroup (ResultSet groupsSet) throws SQLException {
-            Group group = new Group();
-            group.setId(groupsSet.getLong("id"));
-            group.setGroupColor(groupsSet.getString("group_color"));
-            return group;
+    @Override
+    public List<Group> randomTwo() {
+        List<Group> groupRandom = new ArrayList<>();
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(RANDOM_GROUP_QUERY)) {
+            connection.setAutoCommit(false);
+
+            readGroupsFromDatabase(statement, groupRandom);
+            connection.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+        return groupRandom;
     }
+    private Group parseGroup(ResultSet groupsSet) throws SQLException {
+        Group group = new Group();
+        group.setId(groupsSet.getLong("id"));
+        group.setGroupColor(groupsSet.getString("group_color"));
+        return group;
+    }
+}
 
