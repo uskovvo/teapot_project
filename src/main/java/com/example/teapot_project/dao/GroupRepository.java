@@ -1,7 +1,6 @@
 package com.example.teapot_project.dao;
 
 import com.example.teapot_project.model.Group;
-import com.example.teapot_project.model.User;
 
 import java.util.List;
 
@@ -12,5 +11,5 @@ public interface GroupRepository {
     Group create(Group group);
     Group update(Group group);
     boolean delete(long id);
-    List <Group> randomTwo();
+    List <Group> returnRandom();
 }

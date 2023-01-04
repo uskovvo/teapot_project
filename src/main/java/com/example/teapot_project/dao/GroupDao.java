@@ -20,7 +20,7 @@ public class GroupDao implements GroupRepository {
     private static final String DELETE_USER_QUERY = "DELETE FROM groups WHERE id = ?";
     private static final String READ_ALL_USERS_QUERY = "SELECT * FROM groups";
     private static final String READ_USER_QUERY = "SELECT * FROM groups AS g WHERE g.id = ?";
-    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY rand() LIMIT 2";
+    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY RAND() LIMIT 2";
 
     public static GroupDao getInstance() {
         if (instance == null) {
@@ -158,7 +158,7 @@ public class GroupDao implements GroupRepository {
     }
 
     @Override
-    public List<Group> randomTwo() {
+    public List<Group> returnRandom() {
         List<Group> groupRandom = new ArrayList<>();
         try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(RANDOM_GROUP_QUERY)) {
