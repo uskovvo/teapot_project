@@ -21,10 +21,7 @@ pipeline {
         stage("deploy") {
 
             steps{
-//                deploy adapters: [tomcat9(credentialsId: 'run_app-deploy', path: '', url: 'http://192.168.0.200:8080/')], contextPath: null, war: '**/*.war'
-//                deploy adapters: [tomcat9(credentialsId: 'remote-tomcat-1', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
-//                   deploy adapters: [tomcat9(credentialsId: 'remote1', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
-                 deploy adapters: [tomcat9(credentialsId: 'remote-tomcat10', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
+                 deploy adapters: [tomcat9(credentialsId: 'tomcat-1', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
             }
         }
     }
