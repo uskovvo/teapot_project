@@ -9,6 +9,14 @@ public class User {
     private Long id;
     private String name;
     private String surname;
+
+    public User( String name, String surname, int age, long groupId) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.groupId = groupId;
+    }
+
     private int age;
 
     private long groupId;
@@ -50,16 +58,6 @@ public class User {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", Age=" + age +
-                '}';
-    }
-
 
     public Long getId() {
         return id;
@@ -74,6 +72,18 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                ", groupId=" + groupId +
+                ", answerStatus=" + answerStatus +
+                '}';
     }
 
     public void setName(String name) {
