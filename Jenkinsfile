@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools{
-    maven 'maven_deploy'
+    maven 'MavenForTomcatSrv'
     }
 
     stages {
