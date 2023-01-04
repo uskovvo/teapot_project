@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        sshagent(['ssh-key-github']) {
-                            sh 'ssh -o StrictHostKeyChecking=no -l cloudbees 35.227.146.153 valerii -a'
-                        }
-    }
+    agent any
 
     tools{
     maven 'maven_deploy'
@@ -26,7 +22,7 @@ pipeline {
 
             steps{
 
-//                deploy adapters: [tomcat9(credentialsId: 'run_app-deploy', path: '', url: 'http://192.168.0.200:8080')], contextPath: null, war: '**/*.war'
+               deploy adapters: [tomcat9(credentialsId: 'pass-val', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
             }
         }
     }
