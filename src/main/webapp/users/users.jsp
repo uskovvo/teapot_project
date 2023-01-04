@@ -19,11 +19,10 @@
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
-            <th>Id</th>
+            <th>Group</th>
             <th>Name</th>
             <th>Surname</th>
-            <th>Group</th>
-            <th>Age</th>
+            <th>Answer status</th>
             <th></th>
             <th></th>
 
@@ -36,11 +35,10 @@
 
 
             <tr>
-                <td>${user.id}</td>
+                <td>${user.getGroup(groups)} </td>
                 <td>${user.name}</td>
                 <td>${user.surname}</td>
-                <td>${user.getGroup(groups)}                           </td>
-                <td>${user.age}</td>
+                <td>${user.answerStatus ? 'Answered' : 'Not answered'}</td>
                 <td><a href="?action=updateForm&id=${user.id}">Update</a></td>
                 <td><a href="?action=delete&id=${user.id}">Delete</a></td>
             </tr>

@@ -1,5 +1,6 @@
 package com.example.teapot_project.servlet;
 
+import com.example.teapot_project.exceptions.DatabaseOperationException;
 import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.servlet.actions.*;
 import com.example.teapot_project.servlet.actions.groups.*;
@@ -33,6 +34,7 @@ public class UserServlet extends HttpServlet {
         actionMap.put("createForm", new ShowCreateFormAction());
         actionMap.put("all", new GetAllAction());
         actionMap.put("updateUser", new UpdateUserAction());
+        actionMap.put(null, new GetAllAction());
 
         actionMap.put("groupForm", new ShowCreateGroupFormAction());
         actionMap.put("updateGroup", new UpdateGroupAction());
@@ -41,7 +43,7 @@ public class UserServlet extends HttpServlet {
         actionMap.put("deleteGroup", new DeleteGroupAction());
         actionMap.put("getGroupUsers", new ReadGroupUsersAction());
 
-        actionMap.put(null, new GetAllAction());
+
 
 
 
@@ -59,7 +61,7 @@ public class UserServlet extends HttpServlet {
         String action = req.getParameter("action");
         try {
             actionMap.get(action).execute(req, resp);
-        } catch (NotValidDataException ex) {
+        } catch (NotValidDataException | DatabaseOperationException ex) {
             req.setAttribute("exception", ex.getMessage());
             req.getRequestDispatcher("notValidForm.jsp").forward(req, resp);
         }

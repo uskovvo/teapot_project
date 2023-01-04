@@ -10,18 +10,29 @@ public class User {
     private String name;
     private String surname;
 
-    public User( String name, String surname, int age, long groupId) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.groupId = groupId;
-    }
 
     private int age;
 
     private long groupId;
 
     private boolean answerStatus;
+
+
+    public User() {
+    }
+
+    public User(String name, String surname, int age) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+    }
+
+    public User( String name, String surname, long groupId, int age) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.groupId = groupId;
+    }
 
     public String getGroup(List<Group> groups){
         for (Group group :groups) {
@@ -31,7 +42,6 @@ public class User {
         }
         return "none";
     }
-
 
     public Long getGroupId() {
         return groupId;
@@ -49,14 +59,6 @@ public class User {
         this.answerStatus = answerStatus;
     }
 
-    public User() {
-    }
-
-    public User(String name, String surname, int age) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-    }
 
 
     public Long getId() {
@@ -107,7 +109,7 @@ public class User {
     }
 
     public void setAge(int age) {
-        if(age <= 0 || age > 150)
+        if(age < 0 || age > 150)
             throw new NotValidDataException("Age must not be less than 0 and higher than 150");
         this.age = age;
     }
