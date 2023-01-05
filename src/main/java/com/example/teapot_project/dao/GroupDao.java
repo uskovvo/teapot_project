@@ -15,12 +15,12 @@ public class GroupDao implements GroupRepository {
     private static final Logger log = LoggerFactory.getLogger(GroupDao.class);
     private static GroupDao instance;
 
-    private static final String CREATE_USER_QUERY = "INSERT INTO groups(group_color) VALUES (?)";
-    private static final String UPDATE_USER_QUERY = "UPDATE groups SET group_color = ? WHERE id = ?";
-    private static final String DELETE_USER_QUERY = "DELETE FROM groups WHERE id = ?";
-    private static final String READ_ALL_USERS_QUERY = "SELECT * FROM groups";
-    private static final String READ_USER_QUERY = "SELECT * FROM groups AS g WHERE g.id = ?";
-    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY rand() LIMIT 2";
+    private static final String CREATE_GROUP_QUERY = "INSERT INTO groups(group_color) VALUES (?)";
+    private static final String UPDATE_GROUP_QUERY = "UPDATE groups SET group_color = ? WHERE id = ?";
+    private static final String DELETE_GROUP_QUERY = "DELETE FROM groups WHERE id = ?";
+    private static final String READ_ALL_GROUPS_QUERY = "SELECT * FROM groups";
+    private static final String READ_GROUP_QUERY = "SELECT * FROM groups AS g WHERE g.id = ?";
+    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY RAND() LIMIT 2";
 
     public static GroupDao getInstance() {
         if (instance == null) {
@@ -41,7 +41,7 @@ public class GroupDao implements GroupRepository {
     public List<Group> readAll() {
         List<Group> groups = new ArrayList<>();
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(READ_ALL_USERS_QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(READ_ALL_GROUPS_QUERY)) {
 
             connection.setAutoCommit(false);
 
@@ -64,7 +64,7 @@ public class GroupDao implements GroupRepository {
     @Override
     public Group read(long groupId) {
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(READ_USER_QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(READ_GROUP_QUERY)) {
 
             connection.setAutoCommit(false);
             statement.setLong(1, groupId);
@@ -72,7 +72,6 @@ public class GroupDao implements GroupRepository {
             Group group = readGroupFromDatabase(statement);
             connection.commit();
             return group;
-            //todo decide how to handle exceptions like this
         } catch (SQLException e) {
             log.warn("Exception was caught", e);
             throw new DatabaseOperationException("Group wasn't reader", e);
@@ -89,7 +88,7 @@ public class GroupDao implements GroupRepository {
     @Override
     public Group create(Group group) {
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(CREATE_USER_QUERY, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE_GROUP_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 
             connection.setAutoCommit(false);
             statement.setString(1, group.getGroupColor());
@@ -100,7 +99,6 @@ public class GroupDao implements GroupRepository {
 
         } catch (SQLException e) {
             log.warn("Group wasn't saved", e);
-            //todo delete this plug
             throw new DatabaseOperationException("Group wasn't saved");
         }
     }
@@ -119,7 +117,7 @@ public class GroupDao implements GroupRepository {
     @Override
     public Group update(Group group) {
         try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_USER_QUERY)) {
+             PreparedStatement statement = connection.prepareStatement(UPDATE_GROUP_QUERY)) {
 
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
@@ -143,7 +141,7 @@ public class GroupDao implements GroupRepository {
     @Override
     public boolean delete(long id) {
         try (Connection connection = DataSource.getConnection();
-              PreparedStatement statement = connection.prepareStatement(DELETE_USER_QUERY)) {
+              PreparedStatement statement = connection.prepareStatement(DELETE_GROUP_QUERY)) {
 
             connection.setAutoCommit(false);
             statement.setLong(1, id);
