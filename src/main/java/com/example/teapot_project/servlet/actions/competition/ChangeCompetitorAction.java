@@ -1,24 +1,29 @@
 package com.example.teapot_project.servlet.actions.competition;
 
-import javax.servlet.ServletException;
+import com.example.teapot_project.model.CompetitionTO;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Objects;
 
 public class ChangeCompetitorAction extends AbstractCompetitionAction {
 
-
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void prepareCompetition(HttpServletRequest req) {
+        requestDataChange(req);
     }
 
-    private void requestCompetitionTO(HttpServletRequest req) {
+    private CompetitionTO requestDataChange(HttpServletRequest req) {
         String save = (req.getParameter("save"));
         String change = (req.getParameter("change"));
 
-        Long idToSave = Long.parseLong(save);
-        Long idToChange = Long.parseLong(change);
+        if (save.equals("") || change.equals("")) {
+            return userService.startCompetition();
+        } else {
+            Long idToSave = Long.parseLong(save);
+            Long idToChange = Long.parseLong(change);
+            return userService.changeCompetitor(idToSave, idToChange);
+        }
 
     }
+
+
 }
