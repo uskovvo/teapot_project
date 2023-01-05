@@ -5,12 +5,16 @@ import java.util.List;
 public class Group {
 
     private Long id;
-    private  String groupColor;
+    private String groupColor;
 
     private List<User> userList;
 
     public List<User> getUserList() {
         return userList;
+    }
+
+    public void addUser(User user){
+        userList.add(user);
     }
 
     public void setUserList(List<User> userList) {
@@ -24,7 +28,8 @@ public class Group {
         this.id = id;
         this.groupColor = groupColor;
     }
-    public Group( String groupColor) {
+
+    public Group(String groupColor) {
         this.groupColor = groupColor;
     }
 
