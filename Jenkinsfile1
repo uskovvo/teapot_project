@@ -1,11 +1,20 @@
 pipeline {
     agent any
+
     tools{
     maven 'mv'
     }
+
+    stages {
         stage("build") {
             steps {
                 sh "mvn clean install"
+            }
+        }
+
+        stage("test") {
+            steps{
+                sh "mvn test"
             }
         }
                stage("deploy") {
@@ -13,4 +22,5 @@ pipeline {
            deploy adapters: [tomcat9(credentialsId: '5', path: '', url: 'http://35.197.41.139:8080')], contextPath: '/war', war: '**/*.war'
             }
         }
+}
 }
