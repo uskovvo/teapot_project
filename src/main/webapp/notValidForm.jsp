@@ -4,7 +4,7 @@
 <head>
     <title>NotValidForm</title>
 </head>
-<body>
+<body style="background-color:#ADD8E6">
     <h2>${exception}</h2>
 
 

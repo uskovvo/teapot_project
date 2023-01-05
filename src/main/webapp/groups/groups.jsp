@@ -7,7 +7,7 @@
 <head>
     <title>Groups</title>
 </head>
-<body>
+<body style="background-color:#ADD8E6">
 <section>
     <h3><a href="/users">Users</a></h3>
     <hr/>
