@@ -29,12 +29,12 @@ public class UserServlet extends HttpServlet {
 
         actionMap = new HashMap<>();
 
-        actionMap.put("delete", new DeleteAction());
-        actionMap.put("updateForm", new ShowUpdateFormAction());
-        actionMap.put("createForm", new ShowCreateFormAction());
-        actionMap.put("all", new GetAllAction());
+        actionMap.put("delete", new DeleteUserAction());
+        actionMap.put("updateForm", new ShowUpdateUserFormAction());
+        actionMap.put("createForm", new ShowCreateUserFormAction());
+        actionMap.put("all", new GetAllUsersAction());
         actionMap.put("updateUser", new UpdateUserAction());
-        actionMap.put(null, new GetAllAction());
+        actionMap.put(null, new GetAllUsersAction());
 
         actionMap.put("groupForm", new ShowCreateGroupFormAction());
         actionMap.put("updateGroup", new UpdateGroupAction());

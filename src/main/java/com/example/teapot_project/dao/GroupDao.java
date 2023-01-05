@@ -20,7 +20,7 @@ public class GroupDao implements GroupRepository {
     private static final String DELETE_GROUP_QUERY = "DELETE FROM groups WHERE id = ?";
     private static final String READ_ALL_GROUPS_QUERY = "SELECT * FROM groups";
     private static final String READ_GROUP_QUERY = "SELECT * FROM groups AS g WHERE g.id = ?";
-    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY random() LIMIT 2";
+    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY RAND() LIMIT 2";
 
     public static GroupDao getInstance() {
         if (instance == null) {

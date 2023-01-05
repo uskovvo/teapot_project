@@ -45,13 +45,13 @@ class UserDaoTest {
 
     @Test
     @DisplayName("Checks if there is 4 users in db")
-    void getAll(){
+    public void getAll(){
         List<User> users = userDao.readAll();
         Assertions.assertEquals(4, users.size());
     }
     @Test
     @DisplayName("Checks if there is 1 users where Groupid=1")
-    void getAllWithGroupId(){
+    public void getAllWithGroupId(){
         List<User> users = userDao.readAll(1);
         Assertions.assertEquals(1, users.size());
     }
