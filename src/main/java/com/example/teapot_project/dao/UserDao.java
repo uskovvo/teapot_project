@@ -106,7 +106,7 @@ public class UserDao implements UserRepository {
 
             connection.setAutoCommit(false);
 
-            ConfigureCreateQueryParameters(statement, user);
+            configureCreateQueryParameters(statement, user);
             addUserToDatabase(statement, user);
             connection.commit();
             return user;
@@ -117,7 +117,7 @@ public class UserDao implements UserRepository {
         }
     }
 
-    private void ConfigureCreateQueryParameters(PreparedStatement statement, User user) throws SQLException {
+    private void configureCreateQueryParameters(PreparedStatement statement, User user) throws SQLException {
         statement.setString(1, user.getName());
         statement.setString(2, user.getSurname());
         statement.setInt(3, user.getAge());
@@ -149,7 +149,8 @@ public class UserDao implements UserRepository {
 
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
-            ConfigureUpdateQueryParameters(statement, user);
+            configureUpdateQueryParameters(statement, user);
+
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
@@ -165,14 +166,12 @@ public class UserDao implements UserRepository {
         }
     }
 
-    private void ConfigureUpdateQueryParameters(PreparedStatement statement, User user) throws SQLException {
-        statement.setString(1, user.getName());
-        statement.setString(2, user.getSurname());
-        statement.setInt(3, user.getAge());
-        statement.setLong(4, user.getGroupId());
-        statement.setBoolean(5, user.isAnswerStatus());
+    private void configureUpdateQueryParameters(PreparedStatement statement, User user) throws SQLException {
+        configureCreateQueryParameters(statement, user);
         statement.setLong(6, user.getId());
     }
+
+
 
     @Override
     public boolean delete(long id) {
