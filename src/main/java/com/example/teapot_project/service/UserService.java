@@ -25,8 +25,6 @@ public class UserService {
 
     public CompetitionTO startCompetition() {
         CompetitionTO competition = new CompetitionTO();
-        Randomizer randomizer = new Randomizer();
-        randomizer.findVictims(competition);
         competition.setUserList(userDao.readAllWithFalseStatus());
         competition.setGroupList(groupDao.readAll());
         return competition;

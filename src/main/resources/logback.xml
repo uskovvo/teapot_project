@@ -2,28 +2,28 @@
 <configuration scan="true" scanPeriod="30 seconds">
 
     <!-- To enable JMX Management -->
-<!--    <jmxConfigurator/>-->
+    <jmxConfigurator/>
 
-<!--    <appender name="file" class="ch.qos.logback.core.FileAppender">-->
-<!--        <file>${JAVA_LOGS}/andersen.log</file>-->
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>${JAVA_LOGS}/andersen.log</file>
 
-<!--        <encoder>-->
-<!--            <charset>UTF-8</charset>-->
-<!--            <pattern>%date %-5level %logger{0} [%file:%line] %msg%n</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date %-5level %logger{0} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
 
-<!--    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
-<!--        <encoder>-->
-<!--            <charset>UTF-8</charset>-->
-<!--            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%class{50}.%M:%L) - %msg%n</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%class{50}.%M:%L) - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-<!--    <logger name="andersen.log" level="debug"/>-->
+    <logger name="andersen.log" level="debug"/>
 
-<!--    <root level="info">-->
-<!--        <appender-ref ref="file"/>-->
-<!--        <appender-ref ref="console"/>-->
-<!--    </root>-->
+    <root level="info">
+        <appender-ref ref="file"/>
+        <appender-ref ref="console"/>
+    </root>
 </configuration>
