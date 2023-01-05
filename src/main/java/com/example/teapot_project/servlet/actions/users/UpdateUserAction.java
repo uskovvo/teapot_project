@@ -29,7 +29,10 @@ public class UpdateUserAction implements ServletAction {
         user.setName(req.getParameter("name"));
         user.setSurname(req.getParameter("surname"));
         user.setAge(Integer.parseInt(req.getParameter("age")));
-        user.setGroupId(Long.parseLong((req.getParameter("groupId"))));
+        String groupId = req.getParameter("groupId");
+        if (!groupId.equals("")){
+        user.setGroupId(Long.parseLong((groupId)));
+        }
 
         if (!req.getParameter("id").equals("")) {
             user.setId(getId(req));

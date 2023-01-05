@@ -19,7 +19,7 @@ public class User {
 
     private int age;
 
-    private long groupId;
+    private Long groupId;
 
     private boolean answerStatus;
 
