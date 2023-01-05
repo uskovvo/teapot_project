@@ -1,6 +1,5 @@
 package com.example.teapot_project.servlet.actions.competition;
 
-import com.example.teapot_project.dao.Randomizer;
 import com.example.teapot_project.model.CompetitionTO;
 import com.example.teapot_project.service.UserService;
 import com.example.teapot_project.servlet.UserServlet;
