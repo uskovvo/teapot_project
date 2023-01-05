@@ -3,6 +3,7 @@ package com.example.teapot_project.servlet;
 import com.example.teapot_project.exceptions.DatabaseOperationException;
 import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.servlet.actions.*;
+import com.example.teapot_project.servlet.actions.competition.CompetitionAction;
 import com.example.teapot_project.servlet.actions.groups.*;
 import com.example.teapot_project.servlet.actions.users.*;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ public class UserServlet extends HttpServlet {
         actionMap.put("createForm", new ShowCreateUserFormAction());
         actionMap.put("all", new GetAllUsersAction());
         actionMap.put("updateUser", new UpdateUserAction());
+        actionMap.put("competition", new CompetitionAction());
         actionMap.put(null, new GetAllUsersAction());
 
         actionMap.put("groupForm", new ShowCreateGroupFormAction());

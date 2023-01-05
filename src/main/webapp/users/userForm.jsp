@@ -6,10 +6,10 @@
 <head>
     <title>Edit page</title>
 </head>
-<body>
+    <jsp:useBean id="user" type="com.example.teapot_project.model.User" scope="request"/>
+<body style="background-color:#ADD8E6">
 <section>
     <h2>${param.action == 'create' ? 'Create user' : 'Edit user'}</h2>
-    <jsp:useBean id="user" type="com.example.teapot_project.model.User" scope="request"/>
     <form method="post" action="?action=updateUser">
         <input type="hidden" name="id" value="${user.id}">
         <dl>

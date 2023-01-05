@@ -88,6 +88,10 @@ public class User {
                 '}';
     }
 
+    public String toStringName(){
+        return "" + name + " " + surname;
+    }
+
     public void setName(String name) {
         if(StringValidator.nameValidation(name)) {
             this.name = name;
