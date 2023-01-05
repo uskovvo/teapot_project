@@ -14,7 +14,7 @@
     <h3><a href="/">Home</a></h3>
     <hr/>
     <h2>Competition</h2>
-    <h3><a href="/users?action=competition">Next pair</a></h3>
+    <h3><a href="/users?action=changeCompetitor">Next pair</a></h3>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
@@ -35,25 +35,23 @@
         </tr>
         <tr>
             <td></td>
-            <td><a href="/users?action=changeCompetitor&save=${userB.id}&change=${userA.id}">Change</a></td>
+            <td><a href="/users?action=changeCompetitor&save=${userB.id}&change=${userA.id}">${userA == null ? '': 'Change'}</a></td>
             <td></td>
             <td></td>
-            <td><a href="/users?action=changeCompetitor&save=${userA.id}&change=${userB.id}">Change</a></td>
+            <td><a href="/users?action=changeCompetitor&save=${userA.id}&change=${userB.id}">${userB == null ? '' : 'Change'}</a></td>
 
         </tr>
     </table>
     <br/>
     <hr/>
     <br/>
+    <h2>People who don't answer:</h2>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
             <th>Group</th>
             <th>Name</th>
             <th>Surname</th>
-            <th>Answer status</th>
-            <th></th>
-            <th></th>
 
         </tr>
         </thead>
@@ -63,9 +61,6 @@
                 <td><a href="?action=getGroupUsers&id=${user.groupId}">${user.getGroup(groups)}</a></td>
                 <td>${user.name}</td>
                 <td>${user.surname}</td>
-                <td>${user.answerStatus ? 'Answered' : 'Not answered'}</td>
-                <td><a href="?action=updateForm&id=${user.id}">Update</a></td>
-                <td><a href="?action=delete&id=${user.id}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
