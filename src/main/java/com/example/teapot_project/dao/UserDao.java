@@ -20,9 +20,8 @@ public class UserDao implements UserRepository {
     private static final String READ_ALL_USERS_QUERY = "SELECT * FROM users";
     private static final String READ_USER_QUERY = "SELECT * FROM users AS u WHERE u.id = ?";
     private static final String READ_USERS_BY_GROUP_QUERY = "SELECT * FROM users AS u WHERE u.group_id = ?";
-
-    private static final String READ_ALL_USERS_QUERY_WITH_FALSE_STATUS = "SELECT * FROM users WHERE status=false";
-    private static final String UPDATE_USER_STATUS_TO_FALSE = "UPDATE users SET status= false WHERE status=true";
+    private static final String READ_ALL_USERS_QUERY_WITH_FALSE_STATUS = "SELECT * FROM users WHERE status=false ORDER BY group_id";
+    private static final String UPDATE_USER_STATUS_TO_FALSE = "UPDATE users SET status = false WHERE status=true";
 
     public static UserDao getInstance() {
         if (instance == null) {
@@ -197,7 +196,7 @@ public class UserDao implements UserRepository {
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-                throw new DatabaseOperationException("Row wasn't deleted");
+                throw new DatabaseOperationException("Row wasn't updated");
             }
             connection.commit();
 
