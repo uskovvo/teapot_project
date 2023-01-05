@@ -8,21 +8,20 @@ import java.util.*;
 
 public class Randomizer {
 
-    public static void main(String[] args) {
-    newtest();
-    }
-        static void newtest() {
+    UserDao userDao = UserDao.getInstance();
+    GroupDao groupDao = GroupDao.getInstance();
+
+    void findVictims() {
 
             long firstVictimId;
             long secondVictimId;
-            UserDao userDao = UserDao.getInstance();
             List<User> userList = new ArrayList<>();
             List<Group> groupList = new ArrayList<>();
             Map<Long, List<User>> map = new HashMap<>();
 
             fillLists(userList, groupList, map);
 
-            long[]  array= findMaxUsersListId(map,0);
+            long[]  array = findMaxUsersListId(map,0);
             if (array[1] ==0) {
             userDao.setStatusToFalse();
             fillLists(userList, groupList, map);
@@ -31,6 +30,7 @@ public class Randomizer {
             long maxId = array[0];
             long maxSize = array[1];
             firstVictimId= map.get(maxId).get((int)(Math.random()*(maxSize -1))).getId();
+
 
             array = findMaxUsersListId(map,maxId);
             if (array[1] == 0) {
@@ -55,9 +55,7 @@ public class Randomizer {
             makeTrue(secondVictimId);
         }
 
-        static void fillLists (List<User> userList , List<Group> groupList , Map<Long, List<User>> map){
-            GroupDao groupDao = GroupDao.getInstance();
-            UserDao userDao = UserDao.getInstance();
+        void fillLists (List<User> userList , List<Group> groupList , Map<Long, List<User>> map){
 
             userList = userDao.readAllWithFalseStatus();
             groupList = groupDao.readAll();
@@ -87,7 +85,6 @@ public class Randomizer {
                     }
                     return new long[]{maxId,maxSize};
           }
-
           static void makeTrue(long id1){
               UserDao userDao = UserDao.getInstance();
 
@@ -95,14 +92,5 @@ public class Randomizer {
               user.setAnswerStatus(!user.isAnswerStatus());
         userDao.update(user);
           }
-
-
-
-
-
-
-
-
-
 
 }
