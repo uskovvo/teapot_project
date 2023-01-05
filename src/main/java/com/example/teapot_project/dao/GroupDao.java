@@ -18,7 +18,7 @@ public class GroupDao implements GroupRepository {
     private static final String CREATE_GROUP_QUERY = "INSERT INTO groups(group_color) VALUES (?)";
     private static final String UPDATE_GROUP_QUERY = "UPDATE groups SET group_color = ? WHERE id = ?";
     private static final String DELETE_GROUP_QUERY = "DELETE FROM groups WHERE id = ?";
-    private static final String READ_ALL_GROUPS_QUERY = "SELECT * FROM groups";
+    private static final String READ_ALL_GROUPS_QUERY = "SELECT * FROM groups ORDER BY id";
     private static final String READ_GROUP_QUERY = "SELECT * FROM groups AS g WHERE g.id = ?";
     private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY RAND() LIMIT 2";
 
