@@ -33,5 +33,11 @@ public class UserService {
     public CompetitionTO changeCompetitor(Long idToSave, Long idToChange) {
         return new CompetitionTO();
     }
+    public CompetitionTO competitorsList(){
+        CompetitionTO competition = new CompetitionTO();
+        competition.setUserList(userDao.readAllWithFalseStatus());
+        competition.setGroupList(groupDao.readAll());
+        return competition;
+    }
 
 }
