@@ -1,31 +1,68 @@
 package com.example.teapot_project.dao;
 
+import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.model.Group;
 import com.example.teapot_project.model.User;
 
-import java.sql.Connection;
 import java.util.*;
 
 public class Randomizer {
 
-    public static void main(String[] args) {
-    newtest();
+    UserDao userDao = UserDao.getInstance();
+    GroupDao groupDao = GroupDao.getInstance();
 
-    }
-        static void newtest() {
+    void findVictims() {
 
             long firstVictimId;
             long secondVictimId;
-
-            GroupDao groupDao = GroupDao.getInstance();
-            UserDao userDao = UserDao.getInstance();
-
-            List<User> userList = userDao.readAll();
-          //  System.out.println("user list " + userList);
-
-            List<Group> groupList = groupDao.readAll();
-            //System.out.println("group list " + groupList);
+            List<User> userList = new ArrayList<>();
+            List<Group> groupList = new ArrayList<>();
             Map<Long, List<User>> map = new HashMap<>();
+
+            fillLists(userList, groupList, map);
+
+            long[]  array = findMaxUsersListId(map,0);
+            if (array[1] ==0) {
+            userDao.setStatusToFalse();
+            fillLists(userList, groupList, map);
+            array= findMaxUsersListId(map,0);
+            }
+            long maxId = array[0];
+            long maxSize = array[1];
+            firstVictimId= map.get(maxId).get((int)(Math.random()*(maxSize -1))).getId();
+
+
+            array = findMaxUsersListId(map,maxId);
+            if (array[1] == 0) {
+                userDao.setStatusToFalse();
+                fillLists(userList, groupList, map);
+                makeTrue(firstVictimId);
+                array = findMaxUsersListId(map,maxId);
+            }
+            long secondMaxId = array[0];
+            long secondMaxSize = array[1];
+
+            secondVictimId = map.get(secondMaxId).get((int)(Math.random()*(secondMaxSize -1))).getId();
+
+
+            System.out.println("victim id " + firstVictimId);
+            System.out.println("victim " +userDao.read(firstVictimId));
+
+            System.out.println("victim2 id " + secondVictimId);
+            System.out.println("victim2 " +userDao.read(secondVictimId));
+
+            makeTrue(firstVictimId);
+            makeTrue(secondVictimId);
+        }
+
+        void fillLists (List<User> userList , List<Group> groupList , Map<Long, List<User>> map){
+
+            userList = userDao.readAllWithFalseStatus();
+            groupList = groupDao.readAll();
+            if (groupList.size() < 2)
+                throw new NotValidDataException("You should have at least 2 groups to fight");
+//            TO DO HANDLE EXCEPTION
+
             for (Group group : groupList) {
                 map.put(group.getId(), new ArrayList<>());
             }
@@ -33,28 +70,7 @@ public class Randomizer {
                 long t = user.getGroupId();
                 if (!user.isAnswerStatus() && t != 0)
                     map.get(t).add(user);
-
             }
-
-            //System.out.println("map " + map);
-            long[]  array= findMaxUsersListId(map,0);
-            long maxId = array[0];
-            long maxSize = array[1];
-
-            array = findMaxUsersListId(map,maxId);
-            long secondMaxId = array[0];
-            long secondMaxSize = array[1];
-
-
-            firstVictimId= map.get(maxId).get((int)(Math.random()*(maxSize -1))).getId();
-            System.out.println("victim id " + firstVictimId);
-            System.out.println("victim " +userDao.read(firstVictimId));
-
-            secondVictimId = map.get(secondMaxId).get((int)(Math.random()*(secondMaxSize -1))).getId();
-            System.out.println("victim2 id " + secondVictimId);
-            System.out.println("victim2 " +userDao.read(secondVictimId));
-
-            maketrue(firstVictimId,secondVictimId);
         }
 
         static long[] findMaxUsersListId (Map<Long,List<User>> map, long id) {
@@ -69,27 +85,12 @@ public class Randomizer {
                     }
                     return new long[]{maxId,maxSize};
           }
-
-          static void maketrue(long id1, long id2){
-              GroupDao groupDao = GroupDao.getInstance();
+          static void makeTrue(long id1){
               UserDao userDao = UserDao.getInstance();
 
-        User user1 = userDao.read(id1);
-        user1.setAnswerStatus(true);
-        userDao.update(user1);
-              User user2 = userDao.read(id2);
-              user2.setAnswerStatus(true);
-              userDao.update(user2);
-
+        User user = userDao.read(id1);
+              user.setAnswerStatus(!user.isAnswerStatus());
+        userDao.update(user);
           }
-
-
-
-
-
-
-
-
-
 
 }

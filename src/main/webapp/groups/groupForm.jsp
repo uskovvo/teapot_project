@@ -6,7 +6,7 @@
 <head>
     <title>Group Form</title>
 </head>
-<body>
+<body style="background-color:#ADD8E6">
 <section>
     <h2>Create group</h2>
     <jsp:useBean id="group" type="com.example.teapot_project.model.Group" scope="request"/>

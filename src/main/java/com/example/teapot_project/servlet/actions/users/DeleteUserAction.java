@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class DeleteAction implements ServletAction {
+public class DeleteUserAction implements ServletAction {
     private UserRepository repository = UserDao.getInstance();
 
     @Override

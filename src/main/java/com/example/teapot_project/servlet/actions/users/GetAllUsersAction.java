@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class GetAllAction implements ServletAction {
+public class GetAllUsersAction implements ServletAction {
     private UserRepository userRepository = UserDao.getInstance();
     private GroupRepository groupRepository = GroupDao.getInstance();
     @Override

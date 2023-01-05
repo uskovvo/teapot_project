@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataSource{
-    //todo Hikari config was hardcoded. Find a way to use hikari.properties file in resources
     private static final String PASSWORD_KEY = "db.password";
     private static final String USERNAME_KEY = "db.username";
     private static final String URL_KEY = "db.url";

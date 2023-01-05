@@ -6,12 +6,10 @@
 <head>
     <title>Edit page</title>
 </head>
-<body>
-<section>
-    <h3><a href="index.html">Home</a></h3>
-    <hr>
-    <h2>${param.action == 'create' ? 'Create user' : 'Edit user'}</h2>
     <jsp:useBean id="user" type="com.example.teapot_project.model.User" scope="request"/>
+<body style="background-color:#ADD8E6">
+<section>
+    <h2>${param.action == 'create' ? 'Create user' : 'Edit user'}</h2>
     <form method="post" action="?action=updateUser">
         <input type="hidden" name="id" value="${user.id}">
         <dl>
@@ -23,14 +21,25 @@
             <dd><input type="text" value="${user.surname}" size=20 name="surname" required></dd>
         </dl>
         <dl>
+            <dd>
             <dt>Group:</dt>
             <dd>
-                <select value="${user.age}" name="groupId">
-                    <option value="">Chose group</option>
+                <select value="${user.groupId}" name="groupId">
+                    <option value="${user.groupId}">${user.groupId == null ? 'chose group' : user.getGroup(groups)} </option>
                     <c:forEach var="group" items="${groups}">
                         <jsp:useBean id="group" class="com.example.teapot_project.model.Group"/>
-                        <option value="${group.id}">${group.groupColor}</option>
+                        <option value="${group.id}"> ${group.groupColor}</option>
                     </c:forEach>
+                </select>
+            </dd>
+        </dl>
+        <dl>
+            <dt>Answer status:</dt>
+            <dd>
+                <select value="${user.answerStatus}" name="answerStatus">
+                    <option value="${user.answerStatus}">${user.answerStatus == true ? 'Answered' : 'Not Answered'} </option>
+                    <option value="${!user.answerStatus}">${user.answerStatus == true ? 'Not Answered' : 'Answered'} </option>
+
                 </select>
             </dd>
         </dl>
