@@ -6,15 +6,15 @@ pipeline {
     }
 
     stages {
-        stage("build") {
-            steps {
-                sh "mvn -DskipTests clean install"
-            }
-        }
+//         stage("build") {
+//             steps {
+//                 sh "mvn -DskipTests clean install"
+//             }
+//         }
 
         stage("test") {
             steps{
-
+                sh "mvn clean"
                 sh "mvn test"
             }
         }
