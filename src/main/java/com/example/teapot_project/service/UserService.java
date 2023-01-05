@@ -1,13 +1,15 @@
 package com.example.teapot_project.service;
 
 import com.example.teapot_project.dao.GroupDao;
+import com.example.teapot_project.dao.GroupRepository;
 import com.example.teapot_project.dao.UserDao;
+import com.example.teapot_project.dao.UserRepository;
 import com.example.teapot_project.model.CompetitionTO;
 
 public class UserService {
     private static UserService instance;
-    private UserDao userDao = UserDao.getInstance();
-    private GroupDao groupDao = GroupDao.getInstance();
+    private UserRepository userDao = UserDao.getInstance();
+    private GroupRepository groupDao = GroupDao.getInstance();
 
     public static UserService getInstance() {
         if (instance == null) {

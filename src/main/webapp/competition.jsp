@@ -52,6 +52,7 @@
             <th>Group</th>
             <th>Name</th>
             <th>Surname</th>
+            <th>Status</th>
 
         </tr>
         </thead>
@@ -61,6 +62,7 @@
                 <td><a href="?action=getGroupUsers&id=${user.groupId}">${user.getGroup(groups)}</a></td>
                 <td>${user.name}</td>
                 <td>${user.surname}</td>
+                <td>${user.answerStatus ? 'Answered' : 'Not answered'}</td>
             </tr>
         </c:forEach>
     </table>
