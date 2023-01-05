@@ -12,6 +12,12 @@ pipeline {
             }
         }
 
+        stage {
+            steps {
+                sh "mvn test"
+            }
+        }
+
         stage("SSHsteps-deploy app") {
             steps{
 
