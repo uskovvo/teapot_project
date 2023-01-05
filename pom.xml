@@ -113,16 +113,26 @@
 
   </dependencies>
   <build>
-    <finalName>teapot_project</finalName>
-<!--      <plugins>-->
-<!--          <plugin>-->
-<!--              <groupId>org.apache.maven.plugins</groupId>-->
-<!--              <artifactId>maven-war-plugin</artifactId>-->
-<!--              <version>3.3.2</version>-->
-<!--              <configuration>-->
-<!--                  <failOnMissingWebXml>false</failOnMissingWebXml>-->
-<!--              </configuration>-->
-<!--          </plugin>-->
-<!--      </plugins>-->
+<!--    <finalName>teapot_project</finalName>-->
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-war-plugin</artifactId>
+              <version>3.3.2</version>
+              <configuration>
+                  <failOnMissingWebXml>false</failOnMissingWebXml>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-failsafe-plugin</artifactId>
+              <version>2.18.1</version>
+              <configuration>
+                  <includes>
+                      <include>*Test.java</include>
+                  </includes>
+              </configuration>
+          </plugin>
+      </plugins>
   </build>
 </project>
