@@ -23,7 +23,7 @@ CREATE TABLE users
     surname  varchar(30) Not NULL,
     age      integer     NOT NULL CHECK ( age > 0 AND age < 150),
     group_id BIGINT REFERENCES groups (id) ON DELETE CASCADE,
-    status   bool
+    status   bool  DEFAULT false
 );
 
 insert into users(id, name, surname, group_id, age, status)

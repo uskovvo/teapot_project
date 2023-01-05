@@ -17,7 +17,7 @@ public class UserDao implements UserRepository {
     private static final String CREATE_USER_QUERY = "INSERT INTO users(name, surname, age, group_id, status) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, surname = ?, age = ?, group_id = ?, status = ? WHERE id = ?";
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE id = ?";
-    private static final String READ_ALL_USERS_QUERY = "SELECT * FROM users";
+    private static final String READ_ALL_USERS_QUERY = "SELECT * FROM users AS u ORDER BY u.group_id, u.status";
     private static final String READ_USER_QUERY = "SELECT * FROM users AS u WHERE u.id = ?";
     private static final String READ_USERS_BY_GROUP_QUERY = "SELECT * FROM users AS u WHERE u.group_id = ?";
     private static final String READ_ALL_USERS_QUERY_WITH_FALSE_STATUS = "SELECT * FROM users WHERE status=false ORDER BY group_id";
