@@ -11,98 +11,89 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Randomizer {
+    private UserDao userDao;
+    private GroupDao groupDao;
+    private CompetitionTO competition;
 
-    UserDao userDao = UserDao.getInstance();
-    GroupDao groupDao = GroupDao.getInstance();
+    public Randomizer() {
+        competition = new CompetitionTO();
+        userDao = UserDao.getInstance();
+        groupDao = GroupDao.getInstance();
+    }
 
-    public void findVictims(CompetitionTO competition) {
+    public CompetitionTO startCompetition(){
 
-        User firstVictim;
-        User secondVictim;
-            List<User> userList = new ArrayList<>();
-            List<Group> groupList = new ArrayList<>();
-
-            fillLists(userList, groupList);
-            firstVictim = findFirstVictim(userList, groupList);
-            secondVictim = findSecondVictim(userList, groupList, firstVictim);
-
-
-            makeTrue(firstVictim);
-            makeTrue(secondVictim);
-
-        competition.setUserA(firstVictim);
-        competition.setGroupA(groupDao.read(firstVictim.getGroupId()));
-        competition.setUserList(userDao.readAllWithFalseStatus());
-        competition.setUserB(secondVictim);
-        competition.setGroupB(groupDao.read(secondVictim.getGroupId()));
         competition.setGroupList(groupDao.readAll());
-        }
+        fillGroupsWithUsers();
+        competition.setUserA(findFirstVictim());
+        competition.setUserB(findSecondVictim());
+        makeTrue(competition.getUserA());
+        makeTrue(competition.getUserB());
+    return competition;
+    }
 
-    public void fillLists (List<User> userList , List<Group> groupList){
-
-            userList.addAll(userDao.readAllWithFalseStatus());
-            groupList.addAll(groupDao.readAll());
+    public void fillGroupsWithUsers(){
+        competition.setUserList(userDao.readAllWithFalseStatus());
+        List<User> userList = competition.getUserList();
+        System.out.println("userlist when fill groups" + userList);
+        List<Group> groupList = competition.getGroupList();
+        System.out.println("grouplist when fill groups" + groupList);
             if (groupList.size() < 2)
-                throw new NotValidDataException("You should have at least 2 groups to fight");
-//            TO DO HANDLE EXCEPTION
+                throw new NotValidDataException("You should have at least 2 groups and 2 users to fight");
 
             for (Group group : groupList) {
                 group.setUserList(
                         userList.stream().filter(c -> c.getGroupId().
                                 equals(group.getId())).collect(Collectors.toList()));
             }
-            groupList.sort(Comparator.comparingInt(g -> g.getUserList().size()));
-        System.out.println(groupList);
+        groupList.sort(((g1, g2) ->  g2.getUserList().size() - g1.getUserList().size()));
         }
 
-    public long[] findMaxUsersListId (List<Group> groupList, long id) {
-                    long maxId = 0 ;
-                    int maxSize = 0;
-                    for (Group group : groupList) {
-                        if (group.getId() == id)
-                            continue;
-                        int size = group.getUserList().size();
-                        if (size > maxSize){
-                            maxSize = size;
-                            maxId = group.getId();}
-                    }
-
-            return new long[]{maxId,maxSize};
-          }
-
          public void makeTrue(User user){
-              UserDao userDao = UserDao.getInstance();
               user.setAnswerStatus(!user.isAnswerStatus());
         userDao.update(user);
           }
-        public User findFirstVictim(List<User> userList , List<Group> groupList){
-            long[]  array = findMaxUsersListId(groupList,0);
-            if (array[1] == 0) {
+        public User findFirstVictim(){
+            List<Group> groupList = competition.getGroupList();
+
+            if (groupList.get(0).getUserList().size()  == 0) {
                 userDao.setStatusToFalse();
-                fillLists(userList, groupList);
-                array = findMaxUsersListId(groupList,0);
+                startCompetition();
             }
 
-            long maxGroupId = array[0];
-            long maxGroupSize = array[1];
-           User firstVictim = groupList.stream().filter(c -> c.getId() == maxGroupId).findAny().get().getUserList()
-                    .get((int)(Math.random()*(maxGroupSize -1)));
-           return firstVictim;
+            List<User> list = groupList.get(0).getUserList();
+            System.out.println("grouplist in first victim " + groupList);
+            competition.setGroupA(groupList.get(0));
+            System.out.println("list size " + list.size());
+            int n = (int)(Math.random()*(list.size() - 1));
+            System.out.println(n);
+            User user = list.get(n);
+            System.out.println(user);
+           return list.get((int)(Math.random()*(list.size() - 1)));
         }
-        public User findSecondVictim (List<User> userList , List<Group> groupList, User firstVictim){
-           long [] array = findMaxUsersListId(groupList,firstVictim.getGroupId());
-            if (array[1] == 0) {
+        public User findSecondVictim (){
+            List<Group> groupList = competition.getGroupList();
 
-                fillLists(userList, groupList);
-                makeTrue(firstVictim);
-                array = findMaxUsersListId(groupList,firstVictim.getGroupId());
+            Group group;
+            if (groupList.get(0).getId().equals(competition.getUserA().getGroupId()))
+                group = groupList.get(1);
+            else
+                group = groupList.get(0);
+
+            if (group.getUserList().size() == 0) {
+                userDao.setStatusToFalse();
+                fillGroupsWithUsers();
+                makeTrue(competition.getUserA());
+                if (groupList.get(0).getId().equals(competition.getUserA().getGroupId()))
+                    group = groupList.get(1);
+                else
+                    group = groupList.get(0);
             }
-            long secondGroupMaxId = array[0];
-            long secondGroupMaxSize = array[1];
 
-            User secondVictim = groupList.stream().filter(c -> c.getId() == secondGroupMaxId).findAny().get().getUserList()
-                    .get((int)(Math.random()*(secondGroupMaxSize -1)));
-            return secondVictim;
+            List<User> list = group.getUserList();
+            competition.setGroupA(group);
+
+            return list.get((int)(Math.random()*(list.size() -1)));
         }
 
 }
