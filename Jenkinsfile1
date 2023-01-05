@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    tools{
+    maven 'mv'
+    }
+    stages {
+        stage("git") {
+            steps {
+                git credentialsId: 'andersen', url: 'git@github.com:uskovvo/teapot_project.git'
+            }
+        }
+        stage("build") {
+            steps {
+                sh "mvn clean install"
+            }
+        }
+               stage("deploy") {
+            steps {
+           deploy adapters: [tomcat9(credentialsId: '5', path: '', url: 'http://35.197.41.139:8080')], contextPath: '/war', war: '**/*.war'
+            }
+        }
+    }
+}
