@@ -3,12 +3,7 @@ pipeline {
     tools{
     maven 'mv'
     }
-    stages {
-        stage("git") {
-            steps {
-                git credentialsId: 'andersen', url: 'git@github.com:uskovvo/teapot_project.git'
             }
-        }
         stage("build") {
             steps {
                 sh "mvn clean install"
