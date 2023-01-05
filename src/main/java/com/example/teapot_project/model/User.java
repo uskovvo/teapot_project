@@ -37,7 +37,7 @@ public class User {
         return groupId;
     }
 
-    public void setGroupId(long groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

@@ -29,11 +29,25 @@ CREATE TABLE users
 insert into users(id, name, surname,group_id, age, status)
 VALUES (100, 'Makise', 'Kurisu', 1, 19, false);
 
+
+insert into users(name, surname, group_id, age)
+VALUES ('satoshi', 'yamamoto',1 ,  40);
+insert into users(name, surname, group_id, age)
+VALUES ('hidetoshi', 'osia',1 ,  40);
+insert into users(name, surname, group_id, age)
+VALUES ('hideo', 'kodzima',1 ,  40);
+
 insert into users(id, name, surname,group_id, age, status)
 VALUES (101, 'Vladimir', 'Lenin', 2, 40, false);
+insert into users(id, name, surname,group_id, age, status)
+VALUES (103, 'Vladimir', 'Zhirinovsky', 2, 80, false);
+insert into users(name, surname, group_id, age)
+VALUES ('Dmitry', 'Rogozin',2 ,  40);
 
 insert into users(id, name, surname,group_id, age, status)
-VALUES (102, 'Jared', 'Leto', null, 40, false);
+VALUES (102, 'Jared', 'Leto', 3, 40, false);
+insert into users(name, surname, group_id, age)
+VALUES ('Harry', 'Styles',3 ,  40);
+insert into users(name, surname,group_id, age)
+VALUES ('Barry', 'White',3 , 40);
 
-insert into users(name, surname, age)
-VALUES ('Jared', 'Leto', 40);
