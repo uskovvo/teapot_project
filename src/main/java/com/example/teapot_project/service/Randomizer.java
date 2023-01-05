@@ -18,51 +18,51 @@ public class Randomizer {
 
     public void findVictims(CompetitionTO competition) {
 
-            long firstVictimId;
-            long secondVictimId;
-            User secondVictim;
-            User firstVictim;
-            List<User> userList = new ArrayList<>();
-            List<Group> groupList = new ArrayList<>();
+        long firstVictimId;
+        long secondVictimId;
+        User secondVictim;
+        User firstVictim;
+        List<User> userList = new ArrayList<>();
+        List<Group> groupList = new ArrayList<>();
 
-            fillLists(userList, groupList);
-            long[]  array = findMaxUsersListId(groupList,0);
-            if (array[1] ==0) {
+        fillLists(userList, groupList);
+        long[] array = findMaxUsersListId(groupList, 0);
+        if (array[1] == 0) {
             userDao.setStatusToFalse();
             fillLists(userList, groupList);
-            array= findMaxUsersListId(groupList,0);
-            }
+            array = findMaxUsersListId(groupList, 0);
+        }
 
-            long maxGroupId = array[0];
-            long maxSize = array[1];
-            firstVictim = groupList.stream().filter(c -> c.getId() == maxGroupId).findAny().get().getUserList()
-                .get((int)(Math.random()*(maxSize -1)));
-            firstVictimId= firstVictim.getId();
-
-
-            array = findMaxUsersListId(groupList,maxGroupId);
-            if (array[1] == 0) {
-
-                fillLists(userList, groupList);
-                makeTrue(firstVictimId);
-                array = findMaxUsersListId(groupList,maxGroupId);
-            }
-            long secondGroupMaxId = array[0];
-            long secondMaxSize = array[1];
-
-            secondVictim = groupList.stream().filter(c -> c.getId() == secondGroupMaxId).findAny().get().getUserList()
-                    .get((int)(Math.random()*(secondMaxSize -1)));
-            secondVictimId = secondVictim.getId();
+        long maxGroupId = array[0];
+        long maxSize = array[1];
+        firstVictim = groupList.stream().filter(c -> c.getId() == maxGroupId).findAny().get().getUserList()
+                .get((int) (Math.random() * (maxSize - 1)));
+        firstVictimId = firstVictim.getId();
 
 
-            System.out.println("victim id " + firstVictimId);
-            System.out.println("victim " +userDao.read(firstVictimId));
+        array = findMaxUsersListId(groupList, maxGroupId);
+        if (array[1] == 0) {
 
-            System.out.println("victim2 id " + secondVictimId);
-            System.out.println("victim2 " +userDao.read(secondVictimId));
-
+            fillLists(userList, groupList);
             makeTrue(firstVictimId);
-            makeTrue(secondVictimId);
+            array = findMaxUsersListId(groupList, maxGroupId);
+        }
+        long secondGroupMaxId = array[0];
+        long secondMaxSize = array[1];
+
+        secondVictim = groupList.stream().filter(c -> c.getId() == secondGroupMaxId).findAny().get().getUserList()
+                .get((int) (Math.random() * (secondMaxSize - 1)));
+        secondVictimId = secondVictim.getId();
+
+
+        System.out.println("victim id " + firstVictimId);
+        System.out.println("victim " + userDao.read(firstVictimId));
+
+        System.out.println("victim2 id " + secondVictimId);
+        System.out.println("victim2 " + userDao.read(secondVictimId));
+
+        makeTrue(firstVictimId);
+        makeTrue(secondVictimId);
 
         competition.setUserA(firstVictim);
         competition.setGroupA(groupDao.read(maxGroupId));
@@ -70,61 +70,63 @@ public class Randomizer {
         competition.setUserB(secondVictim);
         competition.setGroupB(groupDao.read(secondGroupMaxId));
         competition.setGroupList(groupDao.readAll());
+    }
+
+    void fillLists(List<User> userList, List<Group> groupList) {
+
+        userList = userDao.readAllWithFalseStatus();
+        groupList.addAll(groupDao.readAll());
+        if (groupList.size() < 2)
+            throw new NotValidDataException("You should have at least 2 groups to fight");
+//            TODO HANDLE EXCEPTION
+
+        for (Group group : groupList) {
+            group.setUserList(
+                    userList.stream().filter(c -> c.getGroupId().
+                            equals(group.getId())).collect(Collectors.toList()));
         }
+    }
 
-        void fillLists (List<User> userList , List<Group> groupList){
-
-            userList = userDao.readAllWithFalseStatus();
-            groupList.addAll(groupDao.readAll());
-            if (groupList.size() < 2)
-                throw new NotValidDataException("You should have at least 2 groups to fight");
-//            TO DO HANDLE EXCEPTION
-
-            for (Group group : groupList) {
-                group.setUserList(
-                        userList.stream().filter(c -> c.getGroupId().
-                                equals(group.getId())).collect(Collectors.toList()));
+    static long[] findMaxUsersListId(List<Group> groupList, long id) {
+        long maxId = 0;
+        int maxSize = 0;
+        System.out.println("grouplis from method find" + groupList);
+        for (Group group : groupList) {
+            if (group.getId() == id)
+                continue;
+            int size = group.getUserList().size();
+            if (size > maxSize) {
+                maxSize = size;
+                maxId = group.getId();
             }
         }
+        System.out.println("max id " + maxId);
+        System.out.println("max size " + maxSize);
 
-        static long[] findMaxUsersListId (List<Group> groupList, long id) {
-                    long maxId = 0 ;
-                    int maxSize = 0;
-            System.out.println("grouplis from method find" + groupList);
-                    for (Group group : groupList) {
-                        if (group.getId() == id)
-                            continue;
-                        int size = group.getUserList().size();
-                        if (size > maxSize){
-                            maxSize = size;
-                            maxId = group.getId();}
-                    }
-            System.out.println("max id " +maxId );
-            System.out.println("max size "+ maxSize);
+        return new long[]{maxId, maxSize};
+    }
 
-            return new long[]{maxId,maxSize};
-          }
-
-    static long[] findMaxUsersListI (Map<Long,List<User>> map, long id) {
-        long maxId = 0 ;
+    static long[] findMaxUsersListI(Map<Long, List<User>> map, long id) {
+        long maxId = 0;
         int maxSize = 0;
         for (Long aLong : map.keySet()) {
             if (aLong == id)
                 continue;
-            if (map.get(aLong).size() > maxSize){
+            if (map.get(aLong).size() > maxSize) {
                 maxSize = map.get(aLong).size();
-                maxId = aLong;}
+                maxId = aLong;
+            }
         }
-        return new long[]{maxId,maxSize};
+        return new long[]{maxId, maxSize};
     }
-          static void makeTrue(long id1){
-              UserDao userDao = UserDao.getInstance();
+
+    static void makeTrue(long id1) {
+        UserDao userDao = UserDao.getInstance();
 
         User user = userDao.read(id1);
-              user.setAnswerStatus(!user.isAnswerStatus());
+        user.setAnswerStatus(!user.isAnswerStatus());
         userDao.update(user);
-          }
-
+    }
 
 
 }

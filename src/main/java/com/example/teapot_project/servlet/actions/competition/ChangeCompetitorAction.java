@@ -8,14 +8,15 @@ public class ChangeCompetitorAction extends AbstractCompetitionAction {
 
     @Override
     protected void prepareCompetition(HttpServletRequest req) {
-        requestDataChange(req);
+        CompetitionTO competition = requestDataChange(req);
+        fillRequestWithData(competition, req);
     }
 
     private CompetitionTO requestDataChange(HttpServletRequest req) {
         String save = (req.getParameter("save"));
         String change = (req.getParameter("change"));
 
-        if (save.equals("") || change.equals("")) {
+        if (save == null || change == null || save.equals("") || change.equals("")) {
             return userService.startCompetition();
         } else {
             Long idToSave = Long.parseLong(save);
