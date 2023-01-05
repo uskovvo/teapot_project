@@ -21,6 +21,9 @@ public class UserDao implements UserRepository {
     private static final String READ_USER_QUERY = "SELECT * FROM users AS u WHERE u.id = ?";
     private static final String READ_USERS_BY_GROUP_QUERY = "SELECT * FROM users AS u WHERE u.group_id = ?";
 
+    private static final String READ_ALL_USERS_QUERY_WITH_FALSE_STATUS = "SELECT * FROM users WHERE status=false";
+    private static final String UPDATE_USER_STATUS_TO_FALSE = "UPDATE users SET status= false WHERE status=true";
+
     public static UserDao getInstance() {
         if (instance == null) {
             synchronized (UserDao.class) {
@@ -40,6 +43,21 @@ public class UserDao implements UserRepository {
         List<User> users = new ArrayList<>();
         try (Connection connection = DataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(READ_ALL_USERS_QUERY)) {
+            connection.setAutoCommit(false);
+
+            readUsersFromDatabase(statement, users);
+            connection.commit();
+
+        } catch (SQLException e) {
+            log.warn("Can't read users from database", e);
+        }
+        return users;
+    }
+
+    public List<User> readAllWithFalseStatus() {
+        List<User> users = new ArrayList<>();
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(READ_ALL_USERS_QUERY_WITH_FALSE_STATUS)) {
             connection.setAutoCommit(false);
 
             readUsersFromDatabase(statement, users);
@@ -164,6 +182,28 @@ public class UserDao implements UserRepository {
         } catch (SQLException e) {
             log.warn("Failed to save user", e);
             throw new DatabaseOperationException("User wasn't updated", e);
+
+        }
+    }
+
+
+    //@Override
+    public void setStatusToFalse() {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_USER_STATUS_TO_FALSE)) {
+
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DatabaseOperationException("Row wasn't deleted");
+            }
+            connection.commit();
+
+        } catch (SQLException e) {
+            log.warn("Failed to update table", e);
+            throw new DatabaseOperationException("Row wasn't updated", e);
 
         }
     }
