@@ -18,9 +18,9 @@ public class GroupDao implements GroupRepository {
     private static final String CREATE_GROUP_QUERY = "INSERT INTO groups(group_color) VALUES (?)";
     private static final String UPDATE_GROUP_QUERY = "UPDATE groups SET group_color = ? WHERE id = ?";
     private static final String DELETE_GROUP_QUERY = "DELETE FROM groups WHERE id = ?";
-    private static final String READ_ALL_GROUPS_QUERY = "SELECT * FROM groups";
+    private static final String READ_ALL_GROUPS_QUERY = "SELECT * FROM groups ORDER BY id";
     private static final String READ_GROUP_QUERY = "SELECT * FROM groups AS g WHERE g.id = ?";
-    private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY RAND() LIMIT 2";
+    //private static final String RANDOM_GROUP_QUERY = "SELECT * FROM groups WHERE id = ? ORDER BY RAND() LIMIT 2";
 
     public static GroupDao getInstance() {
         if (instance == null) {
@@ -159,15 +159,15 @@ public class GroupDao implements GroupRepository {
     @Override
     public List<Group> randomTwo() {
         List<Group> groupRandom = new ArrayList<>();
-        try (Connection connection = DataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(RANDOM_GROUP_QUERY)) {
-            connection.setAutoCommit(false);
-
-            readGroupsFromDatabase(statement, groupRandom);
-            connection.commit();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        try (Connection connection = DataSource.getConnection();
+//             PreparedStatement statement = connection.prepareStatement(RANDOM_GROUP_QUERY)) {
+//            connection.setAutoCommit(false);
+//
+//            readGroupsFromDatabase(statement, groupRandom);
+//            connection.commit();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
         return groupRandom;
     }
     private Group parseGroup(ResultSet groupsSet) throws SQLException {
