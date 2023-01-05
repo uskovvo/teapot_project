@@ -8,7 +8,7 @@ public class CompetitionAction extends AbstractCompetitionAction {
 
     @Override
     protected void prepareCompetition(HttpServletRequest req) {
-        CompetitionTO competition = userService.startCompetition();
+        CompetitionTO competition = userService.competitorsList();
         fillRequestWithData(competition, req);
     }
 
