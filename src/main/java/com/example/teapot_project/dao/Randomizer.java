@@ -16,7 +16,6 @@ public class Randomizer {
             long firstVictimId;
             long secondVictimId;
             UserDao userDao = UserDao.getInstance();
-
             List<User> userList = new ArrayList<>();
             List<Group> groupList = new ArrayList<>();
             Map<Long, List<User>> map = new HashMap<>();
@@ -37,7 +36,7 @@ public class Randomizer {
             if (array[1] == 0) {
                 userDao.setStatusToFalse();
                 fillLists(userList, groupList, map);
-                maketrue(firstVictimId);
+                makeTrue(firstVictimId);
                 array = findMaxUsersListId(map,maxId);
             }
             long secondMaxId = array[0];
@@ -52,8 +51,8 @@ public class Randomizer {
             System.out.println("victim2 id " + secondVictimId);
             System.out.println("victim2 " +userDao.read(secondVictimId));
 
-            maketrue(firstVictimId);
-            maketrue(secondVictimId);
+            makeTrue(firstVictimId);
+            makeTrue(secondVictimId);
         }
 
         static void fillLists (List<User> userList , List<Group> groupList , Map<Long, List<User>> map){
@@ -89,13 +88,12 @@ public class Randomizer {
                     return new long[]{maxId,maxSize};
           }
 
-          static void maketrue(long id1){
+          static void makeTrue(long id1){
               UserDao userDao = UserDao.getInstance();
 
         User user = userDao.read(id1);
               user.setAnswerStatus(!user.isAnswerStatus());
         userDao.update(user);
-
           }
 
 
