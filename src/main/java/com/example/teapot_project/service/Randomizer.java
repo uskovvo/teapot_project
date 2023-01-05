@@ -17,8 +17,8 @@ public class Randomizer {
 
     public void findVictims(CompetitionTO competition) {
 
-            User secondVictim;
-            User firstVictim;
+        User firstVictim;
+        User secondVictim;
             List<User> userList = new ArrayList<>();
             List<Group> groupList = new ArrayList<>();
 
@@ -51,6 +51,8 @@ public class Randomizer {
                         userList.stream().filter(c -> c.getGroupId().
                                 equals(group.getId())).collect(Collectors.toList()));
             }
+            groupList.sort(Comparator.comparingInt(g -> g.getUserList().size()));
+        System.out.println(groupList);
         }
 
     public long[] findMaxUsersListId (List<Group> groupList, long id) {
@@ -75,16 +77,16 @@ public class Randomizer {
           }
         public User findFirstVictim(List<User> userList , List<Group> groupList){
             long[]  array = findMaxUsersListId(groupList,0);
-            if (array[1] ==0) {
+            if (array[1] == 0) {
                 userDao.setStatusToFalse();
                 fillLists(userList, groupList);
-                array= findMaxUsersListId(groupList,0);
+                array = findMaxUsersListId(groupList,0);
             }
 
             long maxGroupId = array[0];
-            long maxSize = array[1];
+            long maxGroupSize = array[1];
            User firstVictim = groupList.stream().filter(c -> c.getId() == maxGroupId).findAny().get().getUserList()
-                    .get((int)(Math.random()*(maxSize -1)));
+                    .get((int)(Math.random()*(maxGroupSize -1)));
            return firstVictim;
         }
         public User findSecondVictim (List<User> userList , List<Group> groupList, User firstVictim){
@@ -96,10 +98,10 @@ public class Randomizer {
                 array = findMaxUsersListId(groupList,firstVictim.getGroupId());
             }
             long secondGroupMaxId = array[0];
-            long secondMaxSize = array[1];
+            long secondGroupMaxSize = array[1];
 
             User secondVictim = groupList.stream().filter(c -> c.getId() == secondGroupMaxId).findAny().get().getUserList()
-                    .get((int)(Math.random()*(secondMaxSize -1)));
+                    .get((int)(Math.random()*(secondGroupMaxSize -1)));
             return secondVictim;
         }
 
