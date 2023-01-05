@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<!-- todo rename this file for the project-->
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
   <artifactId>teapot_project</artifactId>
@@ -14,6 +15,7 @@
       <!-- Logging -->
       <logback.version>1.4.3</logback.version>
       <slf4j.version>2.0.3</slf4j.version>
+
   </properties>
   <name>git-test Maven Webapp</name>
   <url>http://maven.apache.org</url>
@@ -111,17 +113,17 @@
       </dependency>
 
   </dependencies>
+
   <build>
+
     <finalName>teapot_project</finalName>
-<!--      <plugins>-->
-<!--          <plugin>-->
-<!--              <groupId>org.apache.maven.plugins</groupId>-->
-<!--              <artifactId>maven-war-plugin</artifactId>-->
-<!--              <version>3.3.2</version>-->
-<!--              <configuration>-->
-<!--                  <failOnMissingWebXml>false</failOnMissingWebXml>-->
-<!--              </configuration>-->
-<!--          </plugin>-->
-<!--      </plugins>-->
+<plugins>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
+          <version>2.22.0</version>
+      </plugin>
+</plugins>
   </build>
 </project>

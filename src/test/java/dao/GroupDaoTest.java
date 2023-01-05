@@ -1,14 +1,11 @@
 package dao;
 
 import com.example.teapot_project.dao.GroupDao;
-import com.example.teapot_project.dao.UserDao;
 import com.example.teapot_project.model.Group;
-import com.example.teapot_project.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import utils.GroupTestData;
-import utils.UserTestData;
 
 import java.util.List;
 
@@ -17,7 +14,7 @@ public class GroupDaoTest {
     private static GroupDao groupDao= GroupDao.getInstance();
 
     @Test
-    @DisplayName("Works if there is 3 groups in db")
+    @DisplayName("Tests if there is 3 groups in db")
     void getAll(){
         List<Group> groups = groupDao.readAll();
         Assertions.assertEquals(3, groups.size());
@@ -25,7 +22,7 @@ public class GroupDaoTest {
 
     @DisplayName("Tests get method")
     @Test
-    void get() {
+    void getTest() {
         Group group = groupDao.read(1);
         Assertions.assertEquals("RED", group.getGroupColor());
     }
