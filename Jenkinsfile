@@ -21,13 +21,10 @@ pipeline {
 
         stage("SSHsteps-deploy app") {
             steps{
-                 deploy adapters: [tomcat9(credentialsId: 'remote-tomcat10', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
-            }
-        }
-
-        stage("success from jenkins") {
-            steps{
-                publishChecks detailsURL: 'git@github.com:uskovvo/teapot_project.git', name: '1', summary: '2', text: '4', title: '3'
+                sshagent(['key-rem-tom1']) {
+                    sh "scm -o StrictHostKeyChecking=no deploy_to_tomcat/target/teapot_project.war valerii@35.227.146.153:/opt/tomcat/webapp"
+                }
+//                  deploy adapters: [tomcat9(credentialsId: 'remote-tomcat10', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
             }
         }
     }
