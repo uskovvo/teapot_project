@@ -25,8 +25,9 @@ public class Randomizer {
 
         competition.setGroupList(groupDao.readAll());
         fillGroupsWithUsers();
-        competition.setUserA(findFirstVictim());
+        findFirstVictim();
         competition.setUserB(findSecondVictim());
+
         makeTrue(competition.getUserA());
         makeTrue(competition.getUserB());
     return competition;
@@ -35,9 +36,7 @@ public class Randomizer {
     public void fillGroupsWithUsers(){
         competition.setUserList(userDao.readAllWithFalseStatus());
         List<User> userList = competition.getUserList();
-        System.out.println("userlist when fill groups" + userList);
         List<Group> groupList = competition.getGroupList();
-        System.out.println("grouplist when fill groups" + groupList);
             if (groupList.size() < 2)
                 throw new NotValidDataException("You should have at least 2 groups and 2 users to fight");
 
@@ -53,23 +52,18 @@ public class Randomizer {
               user.setAnswerStatus(!user.isAnswerStatus());
         userDao.update(user);
           }
-        public User findFirstVictim(){
+        public void findFirstVictim(){
             List<Group> groupList = competition.getGroupList();
 
             if (groupList.get(0).getUserList().size()  == 0) {
                 userDao.setStatusToFalse();
                 startCompetition();
+                return;
             }
 
             List<User> list = groupList.get(0).getUserList();
-            System.out.println("grouplist in first victim " + groupList);
             competition.setGroupA(groupList.get(0));
-            System.out.println("list size " + list.size());
-            int n = (int)(Math.random()*(list.size() - 1));
-            System.out.println(n);
-            User user = list.get(n);
-            System.out.println(user);
-           return list.get((int)(Math.random()*(list.size() - 1)));
+            competition.setUserA(list.get((int)(Math.random()*(list.size() - 1))));
         }
         public User findSecondVictim (){
             List<Group> groupList = competition.getGroupList();
@@ -79,7 +73,6 @@ public class Randomizer {
                 group = groupList.get(1);
             else
                 group = groupList.get(0);
-
             if (group.getUserList().size() == 0) {
                 userDao.setStatusToFalse();
                 fillGroupsWithUsers();
@@ -89,11 +82,9 @@ public class Randomizer {
                 else
                     group = groupList.get(0);
             }
-
             List<User> list = group.getUserList();
-            competition.setGroupA(group);
-
-            return list.get((int)(Math.random()*(list.size() -1)));
+            competition.setGroupB(group);
+            return list.get((int)(Math.random()*(list.size() - 1)));
         }
 
 }
