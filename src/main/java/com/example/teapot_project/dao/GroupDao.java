@@ -155,20 +155,7 @@ public class GroupDao implements GroupRepository {
         return false;
     }
 
-    @Override
-    public List<Group> randomTwo() {
-        List<Group> groupRandom = new ArrayList<>();
-//        try (Connection connection = DataSource.getConnection();
-//             PreparedStatement statement = connection.prepareStatement(RANDOM_GROUP_QUERY)) {
-//            connection.setAutoCommit(false);
-//
-//            readGroupsFromDatabase(statement, groupRandom);
-//            connection.commit();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-        return groupRandom;
-    }
+
     private Group parseGroup(ResultSet groupsSet) throws SQLException {
         Group group = new Group();
         group.setId(groupsSet.getLong("id"));
