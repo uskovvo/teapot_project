@@ -35,7 +35,6 @@
                         <jsp:useBean id="group" class="com.example.teapot_project.model.Group"/>
                         <option value="${group.id}"> ${group.groupColor}</option>
                     </c:forEach>
-
                 </select>
             </dd>
         </dl>
