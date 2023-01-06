@@ -2,10 +2,11 @@ package daoTest;
 
 import com.example.teapot_project.dao.GroupDao;
 import com.example.teapot_project.model.Group;
+import dataTest.GroupTestData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import utils.GroupTestData;
+
 
 import java.util.List;
 

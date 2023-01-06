@@ -5,8 +5,9 @@ import com.example.teapot_project.exceptions.DatabaseConnectionException;
 import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.model.User;
 import com.example.teapot_project.utils.DataSource;
+import dataTest.UserTestData;
 import org.junit.jupiter.api.*;
-import utils.UserTestData;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
