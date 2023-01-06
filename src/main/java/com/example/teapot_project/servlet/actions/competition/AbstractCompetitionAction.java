@@ -28,6 +28,7 @@ public abstract class AbstractCompetitionAction implements ServletAction {
         request.setAttribute("userB", competition.getUserB());
         request.setAttribute("groupA", competition.getGroupA());
         request.setAttribute("groupB", competition.getGroupB());
+        request.setAttribute("isNotValid", competition.isNotValid());
 
     }
 }
