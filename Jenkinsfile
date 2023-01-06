@@ -16,7 +16,7 @@ pipeline {
 
         stage("SSHsteps-deploy app") {
             steps{
-                 deploy adapters: [tomcat9(credentialsId: 'mich-tomcat', path: '', url: 'http://http://34.82.239.239:8080/')], contextPath: null, war: '**/*.war'
+                 deploy adapters: [tomcat9(credentialsId: 'mich-tomcat', path: '', url: 'http://34.82.239.239:8080/')], contextPath: null, war: '**/*.war'
             }
         }
 
