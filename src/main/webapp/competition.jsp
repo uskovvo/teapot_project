@@ -11,7 +11,7 @@
 <jsp:useBean id="user" class="com.example.teapot_project.model.User"/>
 <jsp:useBean id="group" class="com.example.teapot_project.model.Group"/>
 <section>
-    <h3><a href="/">Home</a></h3>
+    <h3><a href="/teapot_project">Home</a></h3>
     <hr/>
     <h2>Competition</h2>
     <c:if test="${isNotValid}"><h3>You should have at least 2 groups and 2 users to start competition<h3/></c:if>

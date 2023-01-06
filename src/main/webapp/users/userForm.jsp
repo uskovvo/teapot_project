@@ -14,11 +14,15 @@
         <input type="hidden" name="id" value="${user.id}">
         <dl>
             <dt>Name:</dt>
-            <dd><input type="text" value="${user.name}" size=20 name="name" required></dd>
+            <dd><label>
+                <input type="text" value="${user.name}" size=20 name="name" required>
+            </label></dd>
         </dl>
         <dl>
             <dt>Surname:</dt>
-            <dd><input type="text" value="${user.surname}" size=20 name="surname" required></dd>
+            <dd><label>
+                <input type="text" value="${user.surname}" size=20 name="surname" required>
+            </label></dd>
         </dl>
         <dl>
             <dd>
@@ -37,11 +41,13 @@
         <dl>
             <dt>Answer status:</dt>
             <dd>
-                <select value="${user.answerStatus}" name="answerStatus">
-                    <option value="${user.answerStatus}">${user.answerStatus == true ? 'Answered' : 'Not Answered'} </option>
-                    <option value="${!user.answerStatus}">${user.answerStatus == true ? 'Not Answered' : 'Answered'} </option>
+                <label>
+                    <select value="${user.answerStatus}" name="answerStatus">
+                        <option value="${user.answerStatus}">${user.answerStatus == true ? 'Answered' : 'Not Answered'} </option>
+                        <option value="${!user.answerStatus}">${user.answerStatus == true ? 'Not Answered' : 'Answered'} </option>
 
-                </select>
+                    </select>
+                </label>
             </dd>
         </dl>
         <dl>
