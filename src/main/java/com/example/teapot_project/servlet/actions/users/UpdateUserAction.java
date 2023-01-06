@@ -22,7 +22,7 @@ public class UpdateUserAction implements ServletAction {
         } else {
             repository.update(user);
         }
-        resp.sendRedirect("users");
+        resp.sendRedirect("/teapot_project/users");
     }
 
     private void fillUserFields(User user, HttpServletRequest req) {
