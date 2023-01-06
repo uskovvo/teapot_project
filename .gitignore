@@ -7,7 +7,6 @@
 log/
 target/
 
-application.properties
-#Jenkinsfile
+
 /src/test/java/dao/GroupDaoTest.java
 /src/test/java/dao/UserDaoTest.java
