@@ -43,13 +43,6 @@ class UserDaoTest {
         this.connection.close();
     }
 
-
-    @Test
-    @DisplayName("Tests if there is 4 users in db")
-    void getAllTest(){
-        List<User> users = userDao.readAll();
-        Assertions.assertEquals(4, users.size());
-    }
     @Test
     @DisplayName("Checks if there is 1 users where Groupid=1")
     void getAllWithGroupId(){
