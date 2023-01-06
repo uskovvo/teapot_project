@@ -23,36 +23,4 @@ pipeline {
             }
         }
 }
-node('a_node') {
-    buildStep('Checkout'){
-        checkout scm
-    }
-
-    buildStep('step 1'){
-            sh '''echo "step 1"
-            '''
-    }
-
-    setBuildStatus("Build complete", "SUCCESS");
-}
-
-void buildStep(String message, Closure closure) {
-  stage(message);
-  try {
-    setBuildStatus(message, "PENDING");
-    closure();
-  } catch (Exception e) {
-    setBuildStatus(message, "FAILURE");
-  }
-}
-
-void setBuildStatus(String message, String state) {
-  step([
-      $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/my-org/my-repo"],
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ]);
-}
 }
