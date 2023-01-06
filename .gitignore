@@ -8,5 +8,7 @@ log/
 target/
 
 
-/src/test/java/dao/GroupDaoTest.java
-/src/test/java/dao/UserDaoTest.java
+#/src/test/java/daoTest/GroupDaoTest.java
+#/src/test/java/daoTest/UserDaoTest.java
+#/src/test/java/dataTest/UserTestData.java
+#/src/test/java/dataTest/GroupTestData.java
