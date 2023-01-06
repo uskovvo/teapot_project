@@ -17,7 +17,7 @@
         <slf4j.version>2.0.3</slf4j.version>
 
     </properties>
-    <name>git-test Maven Webapp</name>
+    <name>teapot_project Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <dependencies>
 
@@ -114,7 +114,7 @@
 
     <build>
 
-        <finalName>teapot_project</finalName>
+<!--        <finalName>teapot_project</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
