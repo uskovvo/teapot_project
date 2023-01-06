@@ -9,6 +9,7 @@ public class CompetitionTO {
     private Group groupB;
     private List<User> userList;
     private List<Group> groupList;
+    private boolean notValid;
 
     public CompetitionTO() {
     }
@@ -65,7 +66,17 @@ public class CompetitionTO {
         return groupList;
     }
 
+
     public void setGroupList(List<Group> groupList) {
         this.groupList = groupList;
     }
+
+    public boolean isNotValid() {
+        return notValid;
+    }
+
+    public void setNotValid(boolean notValid) {
+        this.notValid = notValid;
+    }
 }
+

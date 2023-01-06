@@ -26,6 +26,7 @@
             <dd>
                 <select value="${user.groupId}" name="groupId">
                     <option value="${user.groupId}">${user.groupId == null ? 'chose group' : user.getGroup(groups)} </option>
+                    <option value="">Without group</option>
                     <c:forEach var="group" items="${groups}">
                         <jsp:useBean id="group" class="com.example.teapot_project.model.Group"/>
                         <option value="${group.id}"> ${group.groupColor}</option>
