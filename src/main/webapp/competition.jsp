@@ -37,10 +37,10 @@
         </tr>
         <tr>
             <td></td>
-            <td><a href="/users?action=changeCompetitor&save=${userB.id}&change=${userA.id}">${userA == null ? '': 'Change'}</a></td>
+            <td><a href="/teapot_project/users?action=changeCompetitor&save=${userB.id}&change=${userA.id}">${userA == null ? '': 'Change'}</a></td>
             <td></td>
             <td></td>
-            <td><a href="/users?action=changeCompetitor&save=${userA.id}&change=${userB.id}">${userB == null ? '' : 'Change'}</a></td>
+            <td><a href="/teapot_project/users?action=changeCompetitor&save=${userA.id}&change=${userB.id}">${userB == null ? '' : 'Change'}</a></td>
 
         </tr>
     </table>
