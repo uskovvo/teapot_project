@@ -14,7 +14,9 @@
         <input type="hidden" name="id" value="${group.id}">
         <dl>
             <dt>Name:</dt>
-            <dd><input type="text" value="${group.groupColor}" size=20 name="groupColor" required></dd>
+            <dd><label>
+                <input type="text" value="${group.groupColor}" size=20 name="groupColor" required/>
+            </label></dd>
         </dl>
         <button type="submit">Save</button>
         <button onclick="window.history.back()" type="button">Cancel</button>

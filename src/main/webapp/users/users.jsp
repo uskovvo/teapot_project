@@ -9,7 +9,7 @@
 </head>
 <body style="background-color:#ADD8E6">
 <section>
-    <h3><a href="/">Home</a></h3>
+    <h3><a href="/teapot_project">Home</a></h3>
     <hr/>
     <h2>Users</h2>
     <a href="?action=createForm">Add User</a>

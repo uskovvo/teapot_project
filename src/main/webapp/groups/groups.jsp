@@ -9,7 +9,7 @@
 </head>
 <body style="background-color:#ADD8E6">
 <section>
-    <h3><a href="/users">Users</a></h3>
+    <h3><a href="/teapot_project/users">Users</a></h3>
     <hr/>
     <h2>Groups</h2>
     <a href="?action=groupForm">Add Group</a>
