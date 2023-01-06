@@ -23,6 +23,6 @@ public class GetAllUsersAction implements ServletAction {
         List<Group> groups = groupRepository.readAll();
         req.setAttribute("users", users);
         req.setAttribute("groups", groups);
-        req.getRequestDispatcher("/users/users.jsp").forward(req, resp);
+        req.getRequestDispatcher("users.jsp").forward(req, resp);
     }
 }
