@@ -156,6 +156,8 @@ public class GroupDao implements GroupRepository {
     }
 
 
+
+
     private Group parseGroup(ResultSet groupsSet) throws SQLException {
         Group group = new Group();
         group.setId(groupsSet.getLong("id"));
