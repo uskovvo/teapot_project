@@ -90,27 +90,7 @@ public class Randomizer {
             makeTrue(competition.getUserA());
             shuffleGroups();
             }
-
-
-
-//        Group group;
-//        if (groupList.get(0).getId().equals(competition.getUserA().getGroupId()))
-//        {
-//            group = groupList.get(1);
-//        }
-//        else
-//            group = groupList.get(0);
-//        if (group.getUserList().isEmpty()) {
-//            userDao.setStatusToFalse();
-//            fillGroupsWithUsers();
-//            makeTrue(competition.getUserA());
-//            if (groupList.get(0).getId().equals(competition.getUserA().getGroupId()))
-//                group = groupList.get(1);
-//            else
-//                group = groupList.get(0);
-//        }
         List<User> list = competition.getGroupB().getUserList();
-       // competition.setGroupB(group);
         return list.get((int) (Math.random() * (list.size() - 1)));
     }
 
