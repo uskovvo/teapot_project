@@ -21,7 +21,7 @@ public class UpdateGroupAction implements ServletAction {
         } else {
             repository.update(group);
         }
-        resp.sendRedirect("/users?action=allGroups");
+        resp.sendRedirect("/teapot_project/users?action=allGroups");
     }
 
     private void fillGroupFields(Group group, HttpServletRequest req) {

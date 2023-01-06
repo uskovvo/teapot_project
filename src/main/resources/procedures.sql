@@ -7,7 +7,7 @@ BEGIN
 END
 $$;
 
-alter function get_all() owner to postgres;
+alter function get_all() owner to valera;
 
 
 
@@ -20,4 +20,4 @@ $$BEGIN
 end;
 $$;
 
-alter function get_by_id(bigint) owner to postgres;
+alter function get_by_id(bigint) owner to valera;

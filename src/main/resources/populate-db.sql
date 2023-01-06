@@ -21,7 +21,7 @@ CREATE TABLE users
     id       BIGINT PRIMARY KEY DEFAULT nextval('user_seq'),
     name     VARCHAR(30) NOT NULL,
     surname  varchar(30) Not NULL,
-    age      integer     NOT NULL CHECK ( age > 0 AND age < 150),
+    age      integer     NOT NULL CHECK ( age >= 0 AND age < 150),
     group_id BIGINT REFERENCES groups (id) ON DELETE CASCADE,
     status   bool  DEFAULT false
 );

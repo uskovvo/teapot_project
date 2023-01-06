@@ -26,22 +26,19 @@ public class UserService {
     }
 
     public CompetitionTO startCompetition() {
-        CompetitionTO competition = new CompetitionTO();
         Randomizer randomizer = new Randomizer();
-        randomizer.findVictims(competition);
-       // competition.setUserList(userDao.readAllWithFalseStatus());
-        //competition.setGroupList(groupDao.readAll());
-        return competition;
+
+        return randomizer.startCompetition();
     }
 
     public CompetitionTO changeCompetitor(Long idToSave, Long idToChange) {
-        return new CompetitionTO();
+        Randomizer randomizer = new Randomizer();
+        return randomizer.changeCompetitor(idToSave, idToChange);
     }
+
     public CompetitionTO competitorsList(){
-        CompetitionTO competition = new CompetitionTO();
-        competition.setUserList(userDao.readAllWithFalseStatus());
-        competition.setGroupList(groupDao.readAll());
-        return competition;
+        Randomizer randomizer =new Randomizer();
+        return randomizer.prepareCompetitionersList();
     }
 
 }

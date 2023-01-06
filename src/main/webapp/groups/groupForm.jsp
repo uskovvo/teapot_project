@@ -10,11 +10,13 @@
 <section>
     <h2>Create group</h2>
     <jsp:useBean id="group" type="com.example.teapot_project.model.Group" scope="request"/>
-    <form method="post" action="../users?action=updateGroup">
+    <form method="post" action="/teapot_project/users?action=updateGroup">
         <input type="hidden" name="id" value="${group.id}">
         <dl>
             <dt>Name:</dt>
-            <dd><input type="text" value="${group.groupColor}" size=20 name="groupColor" required></dd>
+            <dd><label>
+                <input type="text" value="${group.groupColor}" size=20 name="groupColor" required/>
+            </label></dd>
         </dl>
         <button type="submit">Save</button>
         <button onclick="window.history.back()" type="button">Cancel</button>

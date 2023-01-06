@@ -6,16 +6,30 @@ pipeline {
     }
 
     stages {
-        stage("build") {
+
+        stage("Build") {
             steps {
-                sh "mvn clean install"
+                sh "mvn -DskipTests clean install"
             }
         }
 
-        stage("SSHsteps-deploy app") {
-            steps{
+        stage("Test") {
+            steps {
 
+                sh "mvn test"
+            }
+        }
+
+        stage("Deploy app") {
+            steps{
                  deploy adapters: [tomcat9(credentialsId: 'remote-tomcat10', path: '', url: 'http://35.227.146.153:8080/')], contextPath: null, war: '**/*.war'
+            }
+        }
+
+
+        stage("Git commit"){
+            steps{
+                step([$class: 'GitHubCommitStatusSetter', contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: 'Job is done']])
             }
         }
     }
