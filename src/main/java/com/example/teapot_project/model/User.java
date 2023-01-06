@@ -4,9 +4,24 @@ import com.example.teapot_project.exceptions.NotValidDataException;
 import com.example.teapot_project.utils.StringValidator;
 
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private Long id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id) && name.equals(user.name) && surname.equals(user.surname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname);
+    }
+
     private String name;
     private String surname;
 

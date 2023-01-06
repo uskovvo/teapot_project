@@ -50,12 +50,13 @@ public class Randomizer {
 
          public void makeTrue(User user){
               user.setAnswerStatus(!user.isAnswerStatus());
+             competition.getUserList().remove(user);
         userDao.update(user);
           }
         public void findFirstVictim(){
             List<Group> groupList = competition.getGroupList();
 
-            if (groupList.get(0).getUserList().size()  == 0) {
+            if (groupList.get(0).getUserList().isEmpty()) {
                 userDao.setStatusToFalse();
                 startCompetition();
                 return;
@@ -73,7 +74,7 @@ public class Randomizer {
                 group = groupList.get(1);
             else
                 group = groupList.get(0);
-            if (group.getUserList().size() == 0) {
+            if (group.getUserList().isEmpty()) {
                 userDao.setStatusToFalse();
                 fillGroupsWithUsers();
                 makeTrue(competition.getUserA());
@@ -86,5 +87,7 @@ public class Randomizer {
             competition.setGroupB(group);
             return list.get((int)(Math.random()*(list.size() - 1)));
         }
+
+
 
 }
