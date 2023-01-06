@@ -21,159 +21,73 @@ public class Randomizer {
         groupDao = GroupDao.getInstance();
     }
 
-    public CompetitionTO startCompetition() {
-        readUsersWithFalseAnswerStatus();
+    public CompetitionTO startCompetition(){
+
         competition.setGroupList(groupDao.readAll());
         fillGroupsWithUsers();
-        validationUserQuantity();
         findFirstVictim();
-        findSecondVictim();
-        prepareCompetition();
-        return competition;
+        competition.setUserB(findSecondVictim());
+
+        makeTrue(competition.getUserA());
+        makeTrue(competition.getUserB());
+    return competition;
     }
 
-    public CompetitionTO prepareCompetitionersList() {
-        readAllUsers();
-        competition.setGroupList(groupDao.readAll());
-        fillGroupsWithUsers();
-        checkCompetitionValidness();
-        return competition;
-    }
-
-    public CompetitionTO changeCompetitor(Long idToSave, Long idToChange) {
-        setAnswerStatus(idToChange, idToSave, false);
-        readUsersWithFalseAnswerStatus();
-        excludeUserFromNextRound(idToChange);
-        competition.setGroupList(groupDao.readAll());
-        fillGroupsWithUsers();
-        saveUserForNextRound(idToSave);
-        findSecondVictim();
-        prepareCompetition();
-
-        return competition;
-    }
-
-    private void excludeUserFromNextRound(Long idToChange) {
-        List<User> users = competition.getUserList();
-        for (int i = 0; i <users.size() ; i++) {
-            if(idToChange.equals(users.get(i).getId()));
-            users.remove(i);
-        }
-    }
-
-    private void saveUserForNextRound(Long idToSave) {
-        for (User user : competition.getUserList()) {
-           if (user.getId().equals(idToSave)){
-            competition.setUserA(user);
-               for (Group group : competition.getGroupList()) {
-                   if (competition.getUserA().getId().equals(group.getId())){
-                       competition.setGroupA(group);
-                       break;
-                   }
-               }
-
-           }
-        }
-
-    }
-
-
-    private void validationUserQuantity() {
-        List<Group> groupList = competition.getGroupList();
-        if (groupList.get(0).getUserList().isEmpty()) {
-            userDao.setStatusToFalse();
-            startCompetition();
-        }
-    }
-
-
-
-    private void checkCompetitionValidness() {
-        int count = 0;
-        for (Group group : competition.getGroupList()) {
-            List<User> users = group.getUserList();
-            if (!users.isEmpty()) {
-                count++;
-            }
-        }
-        if (count < 2) {
-            competition.setNotValid(true);
-        }
-    }
-
-    private void fillGroupsWithUsers() {
+    public void fillGroupsWithUsers(){
+        competition.setUserList(userDao.readAllWithFalseStatus());
         List<User> userList = competition.getUserList();
         List<Group> groupList = competition.getGroupList();
-        if (groupList.size() < 2)
-            throw new NotValidDataException("You should have at least 2 groups and 2 users to fight");
+            if (groupList.size() < 2)
+                throw new NotValidDataException("You should have at least 2 groups and 2 users to fight");
 
-        for (Group group : groupList) {
-            group.setUserList(
-                    userList.stream().filter(c -> c.getGroupId().
-                            equals(group.getId())).collect(Collectors.toList()));
+            for (Group group : groupList) {
+                group.setUserList(
+                        userList.stream().filter(c -> c.getGroupId().
+                                equals(group.getId())).collect(Collectors.toList()));
+            }
+        groupList.sort(((g1, g2) ->  g2.getUserList().size() - g1.getUserList().size()));
         }
-        groupList.sort(((g1, g2) -> g2.getUserList().size() - g1.getUserList().size()));
-    }
 
+         public void makeTrue(User user){
+              user.setAnswerStatus(!user.isAnswerStatus());
+             competition.getUserList().remove(user);
+        userDao.update(user);
+          }
+        public void findFirstVictim(){
+            List<Group> groupList = competition.getGroupList();
 
-    private void findFirstVictim() {
-        List<Group> groupList = competition.getGroupList();
-        competition.setGroupA(groupList.get(0));
-        competition.setUserA(getRandomUserFromGroup(competition.getGroupA()));
-    }
+            if (groupList.get(0).getUserList().isEmpty()) {
+                userDao.setStatusToFalse();
+                startCompetition();
+                return;
+            }
 
-    private void findSecondVictim() {
-        setGroupB();
-        Group groupB = competition.getGroupB();
-        competition.setUserB(getRandomUserFromGroup(groupB));
-    }
+            List<User> list = groupList.get(0).getUserList();
+            competition.setGroupA(groupList.get(0));
+            competition.setUserA(list.get((int)(Math.random()*(list.size() - 1))));
+        }
+        public User findSecondVictim (){
+            List<Group> groupList = competition.getGroupList();
 
-    private void setGroupB() {
-        List<Group> groupList = competition.getGroupList();
-        if (groupList.get(0).getId().equals(competition.getUserA().getGroupId()))
-            competition.setGroupB(groupList.get(1));
-        else
-            competition.setGroupB(groupList.get(0));
-        Group groupB = competition.getGroupB();
-
-        if (groupB.getUserList().size() == 0) {
-            userDao.setStatusToFalse();
-            readUsersWithFalseAnswerStatus();
-            fillGroupsWithUsers();
-
+            Group group;
             if (groupList.get(0).getId().equals(competition.getUserA().getGroupId()))
-                groupB = groupList.get(1);
+                group = groupList.get(1);
             else
-                groupB = groupList.get(0);
+                group = groupList.get(0);
+            if (group.getUserList().isEmpty()) {
+                userDao.setStatusToFalse();
+                fillGroupsWithUsers();
+                makeTrue(competition.getUserA());
+                if (groupList.get(0).getId().equals(competition.getUserA().getGroupId()))
+                    group = groupList.get(1);
+                else
+                    group = groupList.get(0);
+            }
+            List<User> list = group.getUserList();
+            competition.setGroupB(group);
+            return list.get((int)(Math.random()*(list.size() - 1)));
         }
-}
 
-    private User getRandomUserFromGroup(Group group) {
-        List<User> userlist = group.getUserList();
-        return userlist.get((int) (Math.random() * (userlist.size() - 1)));
-    }
-
-    private void readUsersWithFalseAnswerStatus() {
-        competition.setUserList(userDao.readAllWithFalseStatus());
-    }
-
-    private void readAllUsers() {
-        competition.setUserList(userDao.readAll());
-
-    }
-
-    private void prepareCompetition() {
-        User userA = competition.getUserA();
-        User userB = competition.getUserB();
-        setAnswerStatus(userA.getId(), userB.getId(), true);
-        competition.getUserList().remove(userA);
-        competition.getUserList().remove(userB);
-
-    }
-
-    private void setAnswerStatus(long userId1, long userId2, boolean status) {
-        userDao.setChangeCompetitorsStatus(userId1, userId2, status);
-    }
 
 
 }
