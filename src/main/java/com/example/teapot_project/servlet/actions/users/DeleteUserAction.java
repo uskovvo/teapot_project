@@ -16,6 +16,6 @@ public class DeleteUserAction implements ServletAction {
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long id = getId(req);
         repository.delete(id);
-        resp.sendRedirect("users");
+        resp.sendRedirect("/teapot_project/users");
     }
 }

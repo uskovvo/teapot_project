@@ -14,6 +14,6 @@ public class DeleteGroupAction implements ServletAction {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         repository.delete(getId(req));
-        resp.sendRedirect("/users?action=allGroups");
+        resp.sendRedirect("/teapot_project/users?action=allGroups");
     }
 }
