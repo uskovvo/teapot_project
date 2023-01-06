@@ -17,6 +17,10 @@ public class Group {
         userList.add(user);
     }
 
+    public User getUser(int index){
+        return userList.get(index);
+    }
+
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }

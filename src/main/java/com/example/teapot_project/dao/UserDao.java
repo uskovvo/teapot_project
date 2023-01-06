@@ -22,6 +22,7 @@ public class UserDao implements UserRepository {
     private static final String READ_USERS_BY_GROUP_QUERY = "SELECT * FROM users AS u WHERE u.group_id = ?";
     private static final String READ_ALL_USERS_QUERY_WITH_FALSE_STATUS = "SELECT * FROM users WHERE status=false ORDER BY group_id";
     private static final String UPDATE_USER_STATUS_TO_FALSE = "UPDATE users SET status = false WHERE status=true";
+    private static final String CHANGE_COMPETITORS_STATUS = "UPDATE users as u SET status = ? WHERE u.id = ? OR u.id = ?";
 
     public static UserDao getInstance() {
         if (instance == null) {
@@ -84,8 +85,6 @@ public class UserDao implements UserRepository {
         }
         return users;
     }
-
-
 
 
     private void readUsersFromDatabase(PreparedStatement statement, List<User> users) throws SQLException {
@@ -192,7 +191,30 @@ public class UserDao implements UserRepository {
              PreparedStatement statement = connection.prepareStatement(UPDATE_USER_STATUS_TO_FALSE)) {
 
             connection.setAutoCommit(false);
-            connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
+
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DatabaseOperationException("Row wasn't updated");
+            }
+            connection.commit();
+
+        } catch (SQLException e) {
+            log.warn("Failed to update table", e);
+            throw new DatabaseOperationException("Row wasn't updated", e);
+
+        }
+    }
+
+    public void setChangeCompetitorsStatus(long userId1, long userId2, boolean status) {
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CHANGE_COMPETITORS_STATUS)) {
+
+            connection.setAutoCommit(false);
+
+            statement.setBoolean(1, status);
+            statement.setLong(2, userId1);
+            statement.setLong(3, userId2);
 
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {

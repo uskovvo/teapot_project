@@ -32,13 +32,13 @@ public class UserService {
     }
 
     public CompetitionTO changeCompetitor(Long idToSave, Long idToChange) {
-        return new CompetitionTO();
+        Randomizer randomizer = new Randomizer();
+        return randomizer.changeCompetitor(idToSave, idToChange);
     }
+
     public CompetitionTO competitorsList(){
-        CompetitionTO competition = new CompetitionTO();
-        competition.setUserList(userDao.readAllWithFalseStatus());
-        competition.setGroupList(groupDao.readAll());
-        return competition;
+        Randomizer randomizer =new Randomizer();
+        return randomizer.prepareCompetitionersList();
     }
 
 }
