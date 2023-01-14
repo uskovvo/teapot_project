@@ -7,9 +7,17 @@ pipeline {
 
     stages {
 
-        stage("Build") {
+        stage('Build') {
             steps {
-                sh "mvn -DskipTests clean install"
+                sh 'mvn clean package'// One or more steps need to be included within the steps block.
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube-9.1'){
+                    sh 'mvn sonar:sonar'
+                }
             }
         }
 
