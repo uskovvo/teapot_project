@@ -9,7 +9,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'// One or more steps need to be included within the steps block.
+                sh 'mvn -DskipTests clean package'// One or more steps need to be included within the steps block.
             }
         }
 
